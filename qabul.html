@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, white, gray);
+            background-size: 100% 100%;
+            height: 120vh;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+            width: 600px;
+            height: 830px;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+        }
+
+        .card-content {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            gap: 40px;
+        }
+
+        .card-content input {
+            width: 550px;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .card-content input:focus {
+            border-color: #0f9d58;
+        }
+
+        .card-content input:hover {
+            transform: translateY(-2px);
+            transform: scale(1.03);
+        }
+
+        .btnsave {
+            width: 550px;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            background: #0f699d;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btnsave:hover {
+            background: #0c5580;
+            transform: scale(1.03);
+        }
+
+        .content-about {
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            gap: 40px;
+        }
+
+        .card-content textarea {
+            width: 550px;
+            height: 400px;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .card-content textarea:focus {
+            border-color: #0f9d58;
+        }
+
+        .card-content textarea:hover {
+            transform: translateY(-2px);
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="card-content">
+            <input type="text" id="name" placeholder="Nomi">
+            <input type="text" id="price" placeholder="Narxi">
+            <input type="text" id="img" placeholder="Rasm URL">
+
+            <textarea placeholder="Ma'lumot" id="about"></textarea>
+
+            <button class="btnsave">Qo'shish</button>
+
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAVpu359-UXW_iEGPMZxeMmYQUYCW0hCWg",
+            authDomain: "yangiyer-elon.firebaseapp.com",
+            projectId: "yangiyer-elon",
+            storageBucket: "yangiyer-elon.firebasestorage.app",
+            messagingSenderId: "578781932389",
+            appId: "1:578781932389:web:3f982cbf869cc066768f8c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+
+        import {
+            getDatabase,
+            ref,
+            set,
+            get
+        } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js';
+
+        const db = getDatabase();
+
+        let name = document.getElementById('name');
+        let price = document.getElementById('price');
+        let img = document.getElementById('img');
+        let about = document.getElementById('about');
+        let btnsave = document.querySelector('.btnsave');
+
+        function InsertData() {
+            const dbRef = ref(db, 'Maxsulotlar');
+
+            get(dbRef).then((snapshot) => {
+                let nextIndex = 0;
+
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    nextIndex = Array.isArray(data) ? data.length : Object.keys(data).length;
+                }
+
+                set(ref(db, 'Maxsulotlar/' + nextIndex), {
+                    id: nextIndex,
+                    name: name.value,
+                    price: price.value,
+                    img: img.value,
+                    about: about.value
+                })
+                    .then(() => {
+                        alert("Maxsulot muvaffaqqiyatli qo'shildi!");
+                        name.value = ''; price.value = ''; img.value = ''; about.value = '';
+                    })
+                    .catch((error) => {
+                        alert('Xatolik: ' + error);
+                    });
+
+            }).catch((error) => {
+                alert("Bazadan ma'lumot olishda xatolik: " + error);
+            });
+        }
+
+        btnsave.addEventListener('click', InsertData);
+    </script>
+</body>
+
+</html>
