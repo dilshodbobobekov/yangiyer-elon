@@ -8,220 +8,1065 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <style>
-        :root {
-            --forest: #163f2c;
-            --forest-deep: #0e2b1d;
-            --leaf: #2f7a52;
-            --mint: #8fd9ab;
-            --mint-pale: #eaf7ee;
-            --cream: #f7f7f2;
-            --ink: #16241c;
-            --muted: #5b6b60;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', Arial, sans-serif;
-            background: var(--cream);
-            color: var(--ink);
-        }
-
-        /* Header */
         .hero {
-            background: var(--forest);
-            padding: 70px 32px;
-            text-align: center;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 70px;
+            background: linear-gradient(135deg, #0048ff, #00a2ff);
+            color: white;
+            overflow: hidden;
+            position: relative;
+
         }
 
-        .hero-eyebrow {
-            display: inline-block;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            color: var(--mint);
-            margin-bottom: 12px;
+        .hero::before {
+
+            content: "";
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: rgba(255, 255, 255, .08);
+            border-radius: 50%;
+            top: -350px;
+            right: -250px;
+
+        }
+
+        .hero-left {
+
+            width: 50%;
+            z-index: 2;
+
+        }
+
+        .logo {
+
+            width: 140px;
+            margin-bottom: 20px;
+
+        }
+
+        .hero h3 {
+
+            font-size: 35px;
+            margin-bottom: 15px;
+
         }
 
         .hero h1 {
-            font-family: 'Fraunces', serif;
-            font-weight: 600;
-            font-size: clamp(32px, 5vw, 48px);
-            color: #fff;
+
+            font-size: 65px;
+            line-height: 75px;
+            margin-bottom: 25px;
+
         }
 
-        /* Content */
-        .wrap {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 56px 32px 90px;
+        .hero h1 span {
+
+            color: #FFD400;
+
+        }
+
+        .hero p {
+
+            font-size: 22px;
+            line-height: 40px;
+            margin-bottom: 35px;
+
+        }
+
+        .buttons {
+
             display: flex;
-            flex-direction: column;
-            gap: 32px;
+            gap: 20px;
+            flex-wrap: wrap;
+
         }
 
-        .card {
-            background: #fff;
-            border: 1px solid #e3e8e2;
-            border-radius: 20px;
-            padding: 36px;
+        .buttons a {
+
+            padding: 18px 35px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+            transition: .4s;
+
+        }
+
+        .telegram {
+
+            background: #27A6E5;
+            color: white;
+
+        }
+
+        .phone {
+
+            background: #FFD400;
+            color: black;
+
+        }
+
+        .buttons a:hover {
+
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .35);
+
+        }
+
+        .hero-right {
+
+            width: 45%;
+            text-align: right;
+            z-index: 2;
+
+        }
+
+        .hero-right img {
+
+            width: 100%;
+            border-radius: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .35);
+
+        }
+
+        @media(max-width:900px) {
+
+            .hero {
+
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 20px;
+
+            }
+
+            .hero-left,
+            .hero-right {
+
+                width: 100%;
+
+            }
+
+            .hero h1 {
+
+                font-size: 45px;
+                line-height: 55px;
+
+            }
+
+            .hero p {
+
+                font-size: 18px;
+
+            }
+
+            .hero-right {
+
+                margin-top: 30px;
+
+            }
+
+            .buttons {
+
+                justify-content: center;
+
+            }
+
+        }
+
+        .why {
+
+            padding: 90px 30px;
+            background: #f7fbff;
+
+        }
+
+        .title {
+
+            text-align: center;
+            margin-bottom: 60px;
+
+        }
+
+        .title span {
+
+            color: #0066ff;
+            font-weight: bold;
+            letter-spacing: 3px;
+
+        }
+
+        .title h2 {
+
+            font-size: 45px;
+            margin: 20px 0;
+
+        }
+
+        .title h2 span {
+
+            color: #0066ff;
+
+        }
+
+        .title p {
+
+            font-size: 20px;
+            color: #666;
+            max-width: 750px;
+            margin: auto;
+
+        }
+
+        .why-grid {
+
             display: grid;
-            grid-template-columns: 1fr 220px;
-            gap: 32px;
-            align-items: center;
-            box-shadow: 0 1px 2px rgba(14, 43, 29, .04);
-            transition: box-shadow .3s ease, transform .3s ease, border-color .3s ease;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+
         }
 
-        .card:hover {
-            box-shadow: 0 18px 40px rgba(14, 43, 29, .12);
-            transform: translateY(-4px);
-            border-color: var(--mint);
+        .why-card {
+
+            background: white;
+            padding: 35px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
+            transition: .4s;
+
         }
 
-        .card.reverse {
-            grid-template-columns: 220px 1fr;
+        .why-card:hover {
+
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0, 102, 255, .25);
+
         }
 
-        .card.reverse .text {
-            order: 2;
+        .icon {
+
+            font-size: 60px;
+            margin-bottom: 20px;
+
         }
 
-        .card.reverse .media {
-            order: 1;
+        .why-card h3 {
+
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #0055ff;
+
         }
 
-        .step {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            width: fit-content;
-            background: var(--mint-pale);
-            color: var(--leaf);
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 14px;
+        .why-card p {
+
+            font-size: 17px;
+            line-height: 30px;
+            color: #555;
+
         }
 
-        .step::before {
-            content: "";
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--leaf);
+        .stats {
+
+            padding: 90px 30px;
+            background: linear-gradient(135deg, #0057ff, #00a8ff);
+            color: white;
+
         }
 
-        .text h3 {
-            font-family: 'Fraunces', serif;
-            font-size: 24px;
+        .stats-title {
+
+            text-align: center;
+            margin-bottom: 60px;
+
+        }
+
+        .stats-title h2 {
+
+            font-size: 48px;
+            margin-bottom: 15px;
+
+        }
+
+        .stats-title p {
+
+            font-size: 20px;
+            opacity: .9;
+
+        }
+
+        .stats-grid {
+
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+
+        }
+
+        .stat-card {
+
+            background: rgba(255, 255, 255, .15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, .25);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            transition: .4s;
+
+        }
+
+        .stat-card:hover {
+
+            transform: translateY(-12px) scale(1.03);
+            background: rgba(255, 255, 255, .25);
+
+        }
+
+        .stat-card h1 {
+
+            font-size: 60px;
+            color: #FFD400;
+            margin-bottom: 15px;
+
+        }
+
+        .stat-card span {
+
+            font-size: 22px;
             font-weight: 600;
-            color: var(--forest-deep);
-            margin-bottom: 12px;
+
         }
 
-        .text p {
-            color: var(--muted);
-            font-size: 15px;
-            line-height: 1.7;
+        .reviews {
+
+            padding: 100px 30px;
+            background: #f8fbff;
+
         }
 
-        .media {
-            background: var(--mint-pale);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            height: 160px;
+        .reviews-title {
+
+            text-align: center;
+            margin-bottom: 60px;
+
         }
 
-        .media img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        .reviews-title span {
+
+            color: #005eff;
+            font-weight: bold;
+            letter-spacing: 2px;
+
         }
 
-        @media (max-width: 700px) {
-            .card, .card.reverse {
-                grid-template-columns: 1fr;
+        .reviews-title h2 {
+
+            font-size: 45px;
+            margin: 20px 0;
+
+        }
+
+        .reviews-title p {
+
+            font-size: 20px;
+            color: #666;
+
+        }
+
+        .reviews-grid {
+
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+
+        }
+
+        .review-card {
+
+            background: white;
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, .08);
+            transition: .4s;
+
+        }
+
+        .review-card:hover {
+
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px rgba(0, 94, 255, .18);
+
+        }
+
+        .stars {
+
+            font-size: 26px;
+            margin-bottom: 20px;
+
+        }
+
+        .review-card p {
+
+            font-size: 17px;
+            line-height: 30px;
+            color: #555;
+            margin-bottom: 25px;
+
+        }
+
+        .review-card h3 {
+
+            font-size: 24px;
+            color: #005eff;
+
+        }
+
+        .review-card span {
+
+            color: #777;
+            font-size: 16px;
+
+        }
+
+        .footer {
+
+            background: #07142d;
+            color: white;
+            padding: 80px 30px 30px;
+
+        }
+
+        .footer-container {
+
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: auto;
+
+        }
+
+        .footer-box h2 {
+
+            font-size: 34px;
+            margin-bottom: 20px;
+            color: #FFD400;
+
+        }
+
+        .footer-box h3 {
+
+            margin-bottom: 20px;
+            font-size: 24px;
+
+        }
+
+        .footer-box p {
+
+            line-height: 30px;
+            color: #d6d6d6;
+
+        }
+
+        .footer-box a {
+
+            display: block;
+            margin: 12px 0;
+            text-decoration: none;
+            color: white;
+            transition: .3s;
+
+        }
+
+        .footer-box a:hover {
+
+            color: #FFD400;
+            padding-left: 8px;
+
+        }
+
+        .telegram-footer {
+
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: #1DA1F2;
+            border-radius: 12px;
+            font-weight: bold;
+
+        }
+
+        .telegram-footer:hover {
+
+            background: #0088cc;
+            color: white;
+
+        }
+
+        .copyright {
+
+            margin-top: 60px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, .15);
+            padding-top: 25px;
+            color: #bbb;
+
+        }
+
+        #topBtn {
+
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            background: #0066ff;
+            color: white;
+            font-size: 25px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .3);
+            transition: .3s;
+
+        }
+
+        #topBtn:hover {
+
+            transform: translateY(-8px);
+            background: #004fd8;
+
+        }
+
+        /* ===== Scroll Animation ===== */
+
+        .hidden {
+
+            opacity: 0;
+            transform: translateY(80px);
+            transition: all .8s ease;
+
+        }
+
+        .show {
+
+            opacity: 1;
+            transform: translateY(0);
+
+        }
+
+        /* ===== Shine Effect ===== */
+
+        .telegram,
+        .phone,
+        .telegram-footer {
+
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        .telegram::before,
+        .phone::before,
+        .telegram-footer::before {
+
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: rgba(255, 255, 255, .35);
+            transform: skewX(-25deg);
+            transition: 1s;
+
+        }
+
+        .telegram:hover::before,
+        .phone:hover::before,
+        .telegram-footer:hover::before {
+
+            left: 150%;
+
+        }
+
+        /* ===== Floating ===== */
+
+        .hero-right img {
+
+            animation: float 4s ease-in-out infinite;
+
+        }
+
+        @keyframes float {
+
+            0% {
+
+                transform: translateY(0);
+
             }
 
-            .card.reverse .text,
-            .card.reverse .media {
-                order: initial;
+            50% {
+
+                transform: translateY(-15px);
+
             }
 
-            .media {
-                height: 140px;
+            100% {
+
+                transform: translateY(0);
+
             }
+
         }
     </style>
 </head>
 
 <body>
 
-    <div class="hero">
-        <span class="hero-eyebrow">O'quv markazi</span>
-        <h1>Biz haqimizda</h1>
-    </div>
+    <section class="hero">
 
-    <div class="wrap">
+        <div class="hero-left">
 
-        <div class="card">
-            <div class="text">
-                <span class="step">01 · HTML</span>
-                <h3>HTMLda dasturlash</h3>
-                <p>
-                    HTML dasturlash tilini maxsus ta'lim tizimi asosida o'rganishingiz va egallagan bilimingizni
-                    bizning test dasturimiz orqali doimo tekshirib borishingiz mumkin.
-                </p>
+            <img src="photo_2026-07-08_10-28-50.jpg" class="logo">
+
+            <h3>Bobobekov School</h3>
+
+            <h1>
+                DASTURLASHNI <br>
+                <span>0 DAN</span> O'RGANING!
+            </h1>
+
+            <p>
+                Frontend • Backend • Amaliy darslar •
+                Real loyihalar • Zamonaviy o'quv dasturi
+            </p>
+
+            <div class="buttons">
+
+                <a href="https://t.me/bobobekovdilshod" target="_blank" class="telegram">
+                    📲 Telegram
+                </a>
+
+                <a href="tel:+998990190788" class="phone">
+                    📞 +998 99 019 07 88
+                </a>
+
             </div>
-            <div class="media">
-                <img src="https://uzbekdevs.uz/media/technologies/html_uzbekdevs.png" alt="HTML">
-            </div>
+
         </div>
 
-        <div class="card reverse">
-            <div class="media">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/CSS.3.svg" alt="CSS">
-            </div>
-            <div class="text">
-                <span class="step">02 · CSS</span>
-                <h3>CSS dasturlash tili</h3>
-                <p>
-                    CSS dasturlash tilini mukammal o'quv qo'llanmasi asosida o'rganib, barcha imkoniyatlaridan
-                    foydalanishingiz mumkin. CSS dasturlash tilining barcha muhim jihatlarini qamrab olgan o'quv
-                    dasturi sizni professionallikka yetaklaydi.
-                </p>
-            </div>
+        <div class="hero-right">
+
+            <img src="photo_2026-07-08_10-28-13.jpg">
+
         </div>
 
-        <div class="card">
-            <div class="text">
-                <span class="step">03 · JavaScript</span>
-                <h3>Java Script dasturlash tili</h3>
-                <p>
-                    JavaScript dasturlash tili mashhur tillardan hisoblanadi. Uni o'rganish sizga keng imkoniyatlar
-                    eshigini ochadi. Bilimlaringizni haqiqiy loyihalarda sinab, foydali web dasturlar yaratishingiz
-                    mumkin.
-                </p>
-            </div>
-            <div class="media">
-                <img src="images-removebg-preview.png" alt="JavaScript">
-            </div>
+    </section>
+
+    <section class="why hidden">
+
+        <div class="title">
+
+            <span>NIMA UCHUN BIZ?</span>
+
+            <h2>
+                Nega aynan
+                <span>Bobobekov School</span>?
+            </h2>
+
+            <p>
+                Biz o'quvchilarni nafaqat nazariy, balki amaliy bilimlar bilan ham
+                tayyorlaymiz.
+            </p>
+
         </div>
 
-    </div>
+        <div class="why-grid">
+
+            <div class="why-card">
+
+                <div class="icon">💻</div>
+
+                <h3>0 dan o'qitamiz</h3>
+
+                <p>
+                    Hech qanday bilim bo'lmasa ham bosqichma-bosqich
+                    professional darajagacha olib chiqamiz.
+                </p>
+
+            </div>
+
+            <div class="why-card">
+
+                <div class="icon">🚀</div>
+
+                <h3>Amaliy loyihalar</h3>
+
+                <p>
+                    Har bir mavzudan keyin haqiqiy web saytlar yaratishni
+                    o'rganasiz.
+                </p>
+
+            </div>
+
+            <div class="why-card">
+
+                <div class="icon">🎯</div>
+
+                <h3>Doimiy testlar</h3>
+
+                <p>
+                    Har bir darsdan keyin bilimingiz maxsus testlar orqali
+                    tekshiriladi.
+                </p>
+
+            </div>
+
+            <div class="why-card">
+
+                <div class="icon">🏆</div>
+
+                <h3>Sertifikat</h3>
+
+                <p>
+                    Kursni muvaffaqiyatli tamomlagan o'quvchilarga sertifikat
+                    taqdim etiladi.
+                </p>
+
+            </div>
+
+            <div class="why-card">
+
+                <div class="icon">👨‍🏫</div>
+
+                <h3>Tajribali ustoz</h3>
+
+                <p>
+                    Darslar tajribali mentor tomonidan sodda va tushunarli
+                    tarzda o'tiladi.
+                </p>
+
+            </div>
+
+            <div class="why-card">
+
+                <div class="icon">📱</div>
+
+                <h3>Telegram yordam</h3>
+
+                <p>
+                    Darsdan tashqari ham savollaringizga javob beriladi.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="stats hidden">
+
+        <div class="stats-title">
+
+            <h2>Bizning Natijalarimiz</h2>
+
+            <p>
+                O'quvchilarimizning ishonchi va natijalari bizning eng katta yutug'imiz.
+            </p>
+
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h1>1000+</h1>
+                <span>O'quvchilar</span>
+            </div>
+
+            <div class="stat-card">
+                <h1>95%</h1>
+                <span>Muvaffaqiyat</span>
+            </div>
+
+            <div class="stat-card">
+                <h1>5+</h1>
+                <span>Yillik tajriba</span>
+            </div>
+
+            <div class="stat-card">
+                <h1>24/7</h1>
+                <span>Qo'llab-quvvatlash</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="reviews">
+
+        <div class="reviews-title">
+
+            <span>⭐ O'QUVCHILAR FIKRI</span>
+
+            <h2>Biz haqimizda nima deyishadi?</h2>
+
+            <p>
+                Bobobekov School o'quvchilarining haqiqiy fikrlari.
+            </p>
+
+        </div>
+
+        <div class="reviews-grid">
+
+            <div class="review-card">
+
+                <div class="stars">
+                    ⭐⭐⭐⭐⭐
+                </div>
+
+                <p>
+                    "Darslar juda tushunarli. HTML, CSS va JavaScriptni qisqa vaqt ichida
+                    o'rganishga muvaffaq bo'ldim."
+                </p>
+
+                <h3>Samir</h3>
+
+                <span>Web Developer</span>
+
+            </div>
+
+            <div class="review-card">
+
+                <div class="stars">
+                    ⭐⭐⭐⭐⭐
+                </div>
+
+                <p>
+                    "Har bir dars amaliy loyiha bilan tushuntiriladi.
+                    Telegram orqali ham yordam berishadi."
+                </p>
+
+                <h3>Shohruh</h3>
+
+                <span>Web Developer</span>
+
+            </div>
+
+            <div class="review-card">
+
+                <div class="stars">
+                    ⭐⭐⭐⭐⭐
+                </div>
+
+                <p>
+                    "Eng yoqqan tomoni — test tizimi va uyga vazifalar.
+                    Bilimim juda oshdi."
+                </p>
+
+                <h3>Alisher</h3>
+
+                <span>Dasturlash kursi</span>
+
+            </div>
+
+        </div>
+
+    </section>
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-box">
+
+                <h2>Bobobekov School</h2>
+
+                <p>
+                    Zamonaviy dasturlash kurslari orqali
+                    HTML, CSS, JavaScript va boshqa
+                    texnologiyalarni 0 dan professional
+                    darajagacha o'rganing.
+                </p>
+
+            </div>
+
+            <div class="footer-box">
+
+                <h3>📞 Bog'lanish</h3>
+
+                <a href="tel:+998990190788">
+                    +998 99 019 07 88
+                </a>
+
+                <a href="https://t.me/bobobekovdilshod" target="_blank">
+                    @bobobekovdilshod
+                </a>
+
+                <a href="mailto:info@bobobekovschool.uz">
+                    info@bobobekovschool.uz
+                </a>
+
+            </div>
+
+            <div class="footer-box">
+
+                <h3>📚 Kurslar</h3>
+
+                <a href="#">HTML</a>
+
+                <a href="#">CSS</a>
+
+                <a href="#">JavaScript</a>
+
+                <a href="#">Frontend</a>
+
+            </div>
+
+            <div class="footer-box">
+
+                <h3>🚀 Biz bilan bog'laning</h3>
+
+                <p>
+                    Telegram orqali yozing yoki telefon
+                    orqali qo'ng'iroq qiling.
+                </p>
+
+                <a class="telegram-footer" href="https://t.me/bobobekovdilshod" target="_blank">
+
+                    Telegramga o'tish
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="copyright">
+
+            © 2026 Bobobekov School |
+            Barcha huquqlar himoyalangan.
+
+        </div>
+
+    </footer>
+
+    <button id="topBtn">⬆</button>
+
+    <script>
+
+        const btn = document.getElementById("topBtn");
+
+        btn.onclick = function () {
+
+            window.scrollTo({
+
+                top: 0,
+
+                behavior: "smooth"
+
+            });
+
+        };
+
+
+        // Scroll Animation
+
+        const hidden = document.querySelectorAll(".hidden");
+
+        const observer = new IntersectionObserver(entries => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("show");
+
+                }
+
+            });
+
+        });
+
+        hidden.forEach(el => observer.observe(el));
+
+
+        // Counter Animation
+
+        const numbers = document.querySelectorAll(".stat-card h1");
+
+        numbers.forEach(num => {
+
+            let value = num.innerText;
+
+            if (value.includes("+")) {
+
+                let target = parseInt(value);
+
+                let count = 0;
+
+                let speed = target / 100;
+
+                let interval = setInterval(() => {
+
+                    count += speed;
+
+                    if (count >= target) {
+
+                        count = target;
+
+                        clearInterval(interval);
+
+                    }
+
+                    num.innerText = Math.floor(count) + "+";
+
+                }, 20);
+
+            }
+
+            if (value.includes("%")) {
+
+                let target = parseInt(value);
+
+                let count = 0;
+
+                let interval = setInterval(() => {
+
+                    count++;
+
+                    if (count >= target) {
+
+                        count = target;
+
+                        clearInterval(interval);
+
+                    }
+
+                    num.innerText = count + "%";
+
+                }, 25);
+
+            }
+
+        });
+
+    </script>
+
 
 </body>
 
