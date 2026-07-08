@@ -568,6 +568,27 @@
 </head>
 
 <body>
+<audio id="qabulOvoz" src="Assalomu alaykum Esl.m4a" autoplay preload="auto" style="display:none;"></audio>
+    <script>
+        (function() {
+            var audio = document.getElementById('qabulOvoz');
+            audio.volume = 1.0;
+            function tryPlay() {
+                var p = audio.play();
+                if (p !== undefined) {
+                    p.catch(function() {
+                        // Brauzer avtomatik ijro etishni bloklagan bo'lsa,
+                        // birinchi bosishda ijro etamiz.
+                        document.addEventListener('click', function playOnce() {
+                            audio.play();
+                            document.removeEventListener('click', playOnce);
+                        }, { once: true });
+                    });
+                }
+            }
+            window.addEventListener('DOMContentLoaded', tryPlay);
+        })();
+    </script>
     <a class="home-btn" href="index.html" title="Bosh sahifaga qaytish">🏠</a>
     <div class="wrap">
         <div class="card">
