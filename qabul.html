@@ -245,6 +245,7 @@
 
     /* --- INPUTS --- */
     input[type="text"],
+    input[type="tel"],
     textarea {
         width: 100%;
         padding: 13px 14px;
@@ -259,11 +260,13 @@
     }
 
     input[type="text"]::placeholder,
+    input[type="tel"]::placeholder,
     textarea::placeholder {
         color: #A79E8C;
     }
 
     input[type="text"]:focus,
+    input[type="tel"]:focus,
     textarea:focus {
         border-color: var(--cobalt);
         box-shadow: 0 0 0 4px var(--cobalt-tint);
@@ -283,6 +286,25 @@
         top: 50%;
         transform: translateY(-50%);
         font-size: 13px;
+        font-weight: 600;
+        color: var(--ink-soft);
+        pointer-events: none;
+    }
+
+    .phone-wrap { position: relative; }
+
+    .phone-wrap input {
+        padding-left: 52px;
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 500;
+    }
+
+    .phone-wrap .prefix {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 14px;
         font-weight: 600;
         color: var(--ink-soft);
         pointer-events: none;
@@ -492,6 +514,14 @@
                 </fieldset>
 
                 <fieldset>
+                    <label class="field-label" for="phone">Telefon raqami</label>
+                    <div class="phone-wrap">
+                        <span class="prefix">+998</span>
+                        <input type="tel" id="phone" placeholder="90 123 45 67" maxlength="9">
+                    </div>
+                </fieldset>
+
+                <fieldset>
                     <span class="field-label">Rasm <span class="hint">— fayldan yuklang yoki havola kiriting</span></span>
                     <div class="img-row">
                         <label class="file-btn">
@@ -546,6 +576,7 @@
 
         let name = document.getElementById('name');
         let price = document.getElementById('price');
+        let phone = document.getElementById('phone');
         let img = document.getElementById('img');
         let about = document.getElementById('about');
         let btnsave = document.querySelector('.btnsave');
@@ -555,6 +586,11 @@
             statusEl.className = 'status show ' + type;
             statusEl.textContent = msg;
         }
+
+        // Faqat raqam kiritishga ruxsat berish (telefon maydoni uchun)
+        phone.addEventListener('input', () => {
+            phone.value = phone.value.replace(/\D/g, '').slice(0, 9);
+        });
 
         // Tanlangan kategoriyani eslab qolish uchun o'zgaruvchi
         let tanlanganKategoriya = "";
@@ -574,8 +610,12 @@
                 showStatus('err', "Iltimos, avval bo'limlardan birini tanlang!");
                 return;
             }
-            if (name.value.trim() === "" || price.value.trim() === "" || img.value.trim() === "" || about.value.trim() === "") {
+            if (name.value.trim() === "" || price.value.trim() === "" || phone.value.trim() === "" || img.value.trim() === "" || about.value.trim() === "") {
                 showStatus('err', "Bo'sh joy mavjud! Iltimos, barcha maydonlarni to'ldiring.");
+                return;
+            }
+            if (phone.value.trim().length !== 9) {
+                showStatus('err', "Telefon raqami noto'g'ri! 9 ta raqam kiriting (masalan: 901234567).");
                 return;
             }
 
@@ -594,13 +634,14 @@
                     kategoriya: tanlanganKategoriya,
                     name: name.value,
                     price: price.value,
+                    phone: "+998" + phone.value.trim(),
                     img: img.value,
                     about: about.value
                 })
                     .then(() => {
                         showStatus('ok', "Ma'lumot muvaffaqiyatli qo'shildi!");
 
-                        name.value = ''; price.value = ''; img.value = ''; about.value = '';
+                        name.value = ''; price.value = ''; phone.value = ''; img.value = ''; about.value = '';
                         kategoriyalar.forEach(k => k.classList.remove('active'));
                         tanlanganKategoriya = "";
                         document.getElementById('previewRow').classList.remove('has-img');

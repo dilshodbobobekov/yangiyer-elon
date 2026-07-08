@@ -22,6 +22,8 @@
         --gold: #d99a3d;
         --ink: #182018;
         --muted: #66756a;
+        --error: #af4438;
+        --error-tint: #fbeae7;
     }
 
     * {
@@ -217,7 +219,7 @@
         border-radius: 18px;
     }
 
-    /* ===== Card (rendered by JS — classnames untouched) ===== */
+    /* ===== Card (rendered by JS) ===== */
     .card {
         background: var(--card);
         border-radius: 16px;
@@ -268,6 +270,22 @@
 
     .card:hover img {
         transform: scale(1.06);
+    }
+
+    .own-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 2;
+        background: var(--forest-deep);
+        color: #fff;
+        font-size: 10.5px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        padding: 5px 10px;
+        border-radius: 30px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.28);
     }
 
     .info {
@@ -336,9 +354,29 @@
         margin-bottom: 10px;
     }
 
-    .btn {
-        width: 100%;
+    .phone-line {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--forest-deep);
+        margin-bottom: 14px;
+        text-decoration: none;
+    }
+
+    .phone-line:hover {
+        color: var(--leaf);
+    }
+
+    .btn-row {
         margin-top: auto;
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn {
+        flex: 1;
         border: 1px solid var(--forest);
         background: transparent;
         color: var(--forest);
@@ -367,6 +405,25 @@
         font-size: 14px;
         font-weight: 700;
         transition: color .25s ease;
+        text-align: center;
+    }
+
+    .btn-delete {
+        flex: 0 0 auto;
+        border: 1px solid var(--error);
+        background: var(--error-tint);
+        color: var(--error);
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background .2s ease, color .2s ease;
+    }
+
+    .btn-delete:hover {
+        background: var(--error);
+        color: #fff;
     }
 
     @media (max-width: 640px) {
@@ -409,7 +466,7 @@
 <script type="module">
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAVpu359-UXW_iEGPMZxeMmYQUYCW0hCWg",
@@ -428,6 +485,15 @@
         let allItems = [];
         let currentFilter = "hammasi";
 
+        // Shu brauzerda qo'shilgan e'lonlar ro'yxati (faqat shular o'chirish tugmasini ko'radi)
+        function meningElonlarim() {
+            try {
+                return JSON.parse(localStorage.getItem('meningElonlarim') || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
         function normalize(str) {
             return (str || "")
                 .toLowerCase()
@@ -445,10 +511,24 @@
 
             if (filtered.length > 0) {
 
+                const mening = meningElonlarim();
+
                 filtered.forEach(item => {
+
+                    const ozimniki = mening.includes(item.id);
+
+                    const telefonHtml = item.phone
+                        ? `<a class="phone-line" href="tel:${item.phone}" onclick="event.stopPropagation()">📞 ${item.phone}</a>`
+                        : "";
+
+                    const ochirishHtml = ozimniki
+                        ? `<button class="btn-delete" data-id="${item.id}">🗑 O'chirish</button>`
+                        : "";
 
                     products.innerHTML += `
 <div class="card">
+
+    ${ozimniki ? '<span class="own-badge">Sizniki</span>' : ''}
 
     <div class="img-wrap">
         <img src="${item.img}" alt="">
@@ -464,13 +544,27 @@
 
         <div class="about">${item.about}</div>
 
-        <button class="btn"><a class="a" href="about.html">Biz haqimizda</a></button>
+        ${telefonHtml}
+
+        <div class="btn-row">
+            <button class="btn"><a class="a" href="about.html">Biz haqimizda</a></button>
+            ${ochirishHtml}
+        </div>
 
     </div>
 
 </div>
 `;
 
+                });
+
+                // O'chirish tugmalariga hodisa biriktirish
+                document.querySelectorAll(".btn-delete").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        const id = btn.getAttribute("data-id");
+                        oElonniOchirish(id);
+                    });
                 });
 
             } else {
@@ -481,9 +575,35 @@
 
         }
 
+        function oElonniOchirish(id) {
+
+            if (!confirm("Ushbu e'lonni butunlay o'chirmoqchimisiz?")) return;
+
+            remove(ref(db, "Maxsulotlar/" + id)).then(() => {
+
+                // Lokal ro'yxatdan ham olib tashlaymiz
+                try {
+                    const mening = meningElonlarim().filter(x => String(x) !== String(id));
+                    localStorage.setItem('meningElonlarim', JSON.stringify(mening));
+                } catch (e) { /* e'tiborsiz qoldiriladi */ }
+
+                // loadProducts() shart emas - onValue listener
+                // o'zgarishni avtomatik tutib, sahifani yangilaydi
+
+            }).catch((error) => {
+                alert("O'chirishda xatolik: " + error);
+            });
+
+        }
+
         function loadProducts() {
 
-            get(ref(db, "Maxsulotlar")).then((snapshot) => {
+            const maxsulotlarRef = ref(db, "Maxsulotlar");
+
+            // onValue - realtime tinglovchi. Ma'lumotlar bazada
+            // o'zgargan (qo'shilgan/o'chirilgan) zahoti bu funksiya
+            // qayta ishga tushadi va sahifa avtomatik yangilanadi.
+            onValue(maxsulotlarRef, (snapshot) => {
 
                 if (snapshot.exists()) {
 
@@ -498,7 +618,7 @@
 
                 renderProducts();
 
-            }).catch((error) => {
+            }, (error) => {
 
                 console.log(error);
 
