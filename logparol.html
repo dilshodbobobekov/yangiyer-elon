@@ -140,7 +140,7 @@
       <input type="text" id="name" placeholder="Ism" />
       <input type="text" id="surname" placeholder="Familiya" />
       <input type="date" id="date" />
-      <input type="text" id="newlog" placeholder="Login.elonchi.uz" />
+      <input type="text" id="newlog" placeholder="Login" />
       <input type="password" id="newpas" placeholder="Parol" />
       <button id="saqlash">Saqlash</button>
       <button id="otish">O'tish</button>
@@ -189,11 +189,6 @@
           newpas.value.trim() === ""
         ) {
           alert("Bo'sh maydonlarni to'ldiring!");
-          return;
-        }
-
-        if (!newlog.value.trim().endsWith(".elonchi.uz")) {
-          alert("Login manzili '.elonchi.uz' bilan tugashi kerak!");
           return;
         }
 
