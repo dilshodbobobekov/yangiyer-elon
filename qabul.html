@@ -862,6 +862,16 @@
                     .then(() => {
                         showStatus('ok', "Ma'lumot muvaffaqiyatli qo'shildi!");
 
+                        // Shu e'lon ID sini "o'zimniki" ro'yxatiga qo'shamiz —
+                        // shunda index.html sahifasida faqat shu brauzerda
+                        // qo'shilgan e'lonlarda "Sizniki" belgisi va
+                        // "O'chirish" tugmasi ko'rinadi.
+                        try {
+                            const mening = JSON.parse(localStorage.getItem('meningElonlarim') || '[]');
+                            mening.push(nextIndex);
+                            localStorage.setItem('meningElonlarim', JSON.stringify(mening));
+                        } catch (e) { /* e'tiborsiz qoldiriladi */ }
+
                         name.value = ''; price.value = ''; phone.value = ''; img.value = ''; about.value = '';
                         kategoriyalar.forEach(k => k.classList.remove('active'));
                         tanlanganKategoriya = "";
