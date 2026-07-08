@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #10151f;
+        background-image:
+          radial-gradient(
+            circle at 20% 20%,
+            rgba(232, 163, 61, 0.06),
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(232, 163, 61, 0.05),
+            transparent 40%
+          );
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      }
+
+      #wrapper {
+        width: 100%;
+        max-width: 360px;
+        margin: 40px auto;
+        padding: 36px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+
+        background: #1a2233;
+        border: 1px solid #2a3549;
+        border-radius: 14px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      }
+
+      #wrapper input {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: 1px solid #2a3549;
+        background: #10151f;
+        color: #edeff4;
+        font-size: 14px;
+        outline: none;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      #wrapper input::placeholder {
+        color: #8a93a6;
+      }
+
+      #wrapper input:focus {
+        border-color: #e8a33d;
+        box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.18);
+      }
+
+      #wrapper input[type="date"] {
+        color-scheme: dark;
+      }
+
+      #wrapper #saqlash {
+        margin-top: 4px;
+        padding: 12px 14px;
+        border: none;
+        border-radius: 8px;
+        background: #e8a33d;
+        color: #10151f;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.12s ease,
+          background 0.15s ease;
+      }
+
+      #wrapper #saqlash:hover {
+        background: #f2b355;
+      }
+
+      #wrapper #saqlash:active {
+        transform: translateY(1px);
+      }
+
+      #wrapper #otish {
+        padding: 10px 14px;
+        border: 1px solid #2a3549;
+        border-radius: 8px;
+        background: transparent;
+        color: #8a93a6;
+        font-size: 13px;
+        cursor: pointer;
+        transition:
+          color 0.15s ease,
+          border-color 0.15s ease;
+      }
+
+      #wrapper #otish:hover {
+        color: #edeff4;
+        border-color: #e8a33d;
+      }
+
+      #wrapper input:focus-visible,
+      #wrapper button:focus-visible {
+        outline: 2px solid #e8a33d;
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 420px) {
+        #wrapper {
+          padding: 28px 20px;
+          margin: 24px 16px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #wrapper * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <input type="text" id="name" placeholder="Ism" />
+      <input type="text" id="surname" placeholder="Familiya" />
+      <input type="date" id="date" />
+      <input type="text" id="newlog" placeholder="Login.elonchi.uz" />
+      <input type="password" id="newpas" placeholder="Parol" />
+      <button id="saqlash">Saqlash</button>
+      <button id="otish">O'tish</button>
+    </div>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        push,
+        set,
+      } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAVpu359-UXW_iEGPMZxeMmYQUYCW0hCWg",
+        authDomain: "yangiyer-elon.firebaseapp.com",
+        databaseURL: "https://yangiyer-elon-default-rtdb.firebaseio.com",
+        projectId: "yangiyer-elon",
+        storageBucket: "yangiyer-elon.firebasestorage.app",
+        messagingSenderId: "578781932389",
+        appId: "1:578781932389:web:3f982cbf869cc066768f8c",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      let namee = document.getElementById("name");
+      let surname = document.getElementById("surname");
+      let date = document.getElementById("date");
+      let newlog = document.getElementById("newlog");
+      let newpas = document.getElementById("newpas");
+      let save = document.getElementById("saqlash");
+      let otish = document.getElementById("otish");
+      let isSaved = false;
+
+      save.addEventListener("click", () => {
+        if (
+          namee.value.trim() === "" ||
+          surname.value.trim() === "" ||
+          date.value.trim() === "" ||
+          newlog.value.trim() === "" ||
+          newpas.value.trim() === ""
+        ) {
+          alert("Bo'sh maydonlarni to'ldiring!");
+          return;
+        }
+
+        if (!newlog.value.trim().endsWith(".elonchi.uz")) {
+          alert("Login manzili '.elonchi.uz' bilan tugashi kerak!");
+          return;
+        }
+
+        let massiv = {
+          ismi: namee.value,
+          familiyasi: surname.value,
+          tugilgan_kuni: date.value,
+          yangilogini: newlog.value,
+          yangiparoli: newpas.value,
+        };
+
+        function insertData() {
+          const xavfsizLogin = newlog.value.trim().replace(/[.#$\[\]]/g, "_");
+
+          set(ref(db, "Login_parol/" + xavfsizLogin), {
+            massiv,
+          })
+            .then(() => {
+              alert("Ma'lumotlar saqlandi");
+            })
+            .catch((error) => {
+              alert("Xatolik: " + error.message);
+            });
+        }
+
+        insertData();
+        isSaved = true;
+        otish.disabled = false;
+      });
+
+      otish.addEventListener("click", () => {
+        if (
+          namee.value.trim() === "" ||
+          surname.value.trim() === "" ||
+          date.value.trim() === "" ||
+          newlog.value.trim() === "" ||
+          newpas.value.trim() === ""
+        ) {
+          alert("Bo'sh maydonlarni to'ldiring va saqlash tugmasini bosing!");
+          return;
+        }
+        if (!isSaved) {
+          alert("Iltimos, avval ma'lumotlarni saqlang!");
+          return;
+        }
+
+        window.location.href = "kirish.html";
+      });
+    </script>
+  </body>
+</html>

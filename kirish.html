@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #10151f;
+        background-image:
+          radial-gradient(
+            circle at 20% 20%,
+            rgba(232, 163, 61, 0.06),
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(232, 163, 61, 0.05),
+            transparent 40%
+          );
+        font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+        color: #edeff4;
+        padding: 24px;
+      }
+
+      #container {
+        width: 100%;
+        max-width: 360px;
+        background: #1a2233;
+        border: 1px solid #2a3549;
+        border-radius: 14px;
+        padding: 36px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      #container::before {
+        content: "YANGIYER E'LON";
+        position: absolute;
+        top: -11px;
+        left: 28px;
+        background: #e8a33d;
+        color: #10151f;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        padding: 3px 10px;
+        border-radius: 999px;
+      }
+
+      #container input,
+      #wrapper input {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: 1px solid #2a3549;
+        background: #10151f;
+        color: #edeff4;
+        font-size: 14px;
+        outline: none;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+
+      #container input::placeholder,
+      #wrapper input::placeholder {
+        color: #8a93a6;
+      }
+
+      #container input:focus,
+      #wrapper input:focus {
+        border-color: #e8a33d;
+        box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.18);
+      }
+
+      #btn,
+      #saqlash {
+        margin-top: 4px;
+        padding: 12px 14px;
+        border: none;
+        border-radius: 8px;
+        background: #e8a33d;
+        color: #10151f;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 0.12s ease,
+          background 0.15s ease;
+      }
+
+      #btn:hover,
+      #saqlash:hover {
+        background: #f2b355;
+      }
+
+      #btn:active,
+      #saqlash:active {
+        transform: translateY(1px);
+      }
+
+      #registr,
+      #otish {
+        padding: 10px 14px;
+        border: 1px solid #2a3549;
+        border-radius: 8px;
+        background: transparent;
+        color: #8a93a6;
+        font-size: 13px;
+        cursor: pointer;
+        transition:
+          color 0.15s ease,
+          border-color 0.15s ease;
+      }
+
+      #registr:hover,
+      #otish:hover {
+        color: #edeff4;
+        border-color: #e8a33d;
+      }
+
+      #wrapper {
+        width: 100%;
+        max-width: 360px;
+        background: #1a2233;
+        border: 1px solid #2a3549;
+        border-radius: 14px;
+        padding: 36px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      #wrapper input[type="date"] {
+        color-scheme: dark;
+      }
+
+      @media (max-width: 420px) {
+        #container,
+        #wrapper {
+          padding: 28px 20px;
+        }
+      }
+
+      button:focus-visible,
+      input:focus-visible {
+        outline: 2px solid #e8a33d;
+        outline-offset: 2px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <input type="text" id="login" placeholder="Login" />
+      <input type="text" id="parol" placeholder="Parol" />
+      <button id="btn">Kirish</button>
+      <button id="registr">Ro'yxatdan o'tish</button>
+    </div>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        push,
+        set,
+        get,
+        child,
+      } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-database.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAVpu359-UXW_iEGPMZxeMmYQUYCW0hCWg",
+        authDomain: "yangiyer-elon.firebaseapp.com",
+        databaseURL: "https://yangiyer-elon-default-rtdb.firebaseio.com",
+        projectId: "yangiyer-elon",
+        storageBucket: "yangiyer-elon.firebasestorage.app",
+        messagingSenderId: "578781932389",
+        appId: "1:578781932389:web:3f982cbf869cc066768f8c",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      let login = document.getElementById("login");
+      let cont = document.getElementById("container");
+      let parol = document.getElementById("parol");
+      let btn = document.getElementById("btn");
+      let regis = document.getElementById("registr");
+
+      regis.addEventListener("click", () => {
+        window.location.href = "logparol.html";
+      });
+
+      btn.addEventListener("click", () => {
+        if (login.value.trim() === "" || parol.value.trim() === "") {
+          alert("Bo'sh maydonlarni to'ldiring!");
+          return;
+        }
+
+        // saqlashda ishlatilgan qoidaning AYNAN o'zi bilan tozalanadi,
+        // aks holda login topilmaydi
+        const xavfsizLogin = login.value.trim().replace(/[.#$\[\]]/g, "_");
+        const kiritilganParol = parol.value.trim();
+
+        function selectData() {
+          const dbref = ref(db);
+          get(child(dbref, "Login_parol/" + xavfsizLogin))
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const malumot = snapshot.val().massiv;
+
+                if (malumot.yangiparoli === kiritilganParol) {
+                  alert("Xush kelibsiz, " + malumot.ismi + "!");
+                  window.location.href = "index.html";
+                } else {
+                  alert("Login yoki parol noto'g'ri!");
+                }
+              } else {
+                alert("Bunday login topilmadi!");
+              }
+            })
+            .catch((error) => {
+              alert("Xatolik: " + error.message);
+            });
+        }
+
+        selectData(); 
+      });
+    </script>
+  </body>
+</html>
