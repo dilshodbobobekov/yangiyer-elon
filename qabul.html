@@ -78,40 +78,13 @@
         }
 
         @keyframes drift1 {
-
-            0%,
-            100% {
-                transform: translate(0, 0);
-            }
-
-            50% {
-                transform: translate(40px, 30px);
-            }
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(40px, 30px); }
         }
 
         @keyframes drift2 {
-
-            0%,
-            100% {
-                transform: translate(0, 0);
-            }
-
-            50% {
-                transform: translate(-30px, -35px);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-
-            body::before,
-            body::after {
-                animation: none;
-            }
-
-            * {
-                transition-duration: 0.01ms !important;
-                animation-duration: 0.01ms !important;
-            }
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-30px, -35px); }
         }
 
         .wrap {
@@ -135,8 +108,7 @@
         .card-head {
             padding: 26px 30px 22px;
             border-bottom: 1px solid var(--line);
-            background:
-                linear-gradient(180deg, var(--cobalt-tint), rgba(255, 255, 255, 0));
+            background: linear-gradient(180deg, var(--cobalt-tint), rgba(255, 255, 255, 0));
         }
 
         .eyebrow {
@@ -196,7 +168,6 @@
             color: var(--ink-soft);
         }
 
-        /* --- CATEGORY TILES --- */
         .kategoriya-konteyner {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -240,9 +211,7 @@
             background: var(--cobalt);
         }
 
-        .kategoriya.active .lbl {
-            color: #fff;
-        }
+        .kategoriya.active .lbl { color: #fff; }
 
         .kategoriya .seal {
             position: absolute;
@@ -261,7 +230,7 @@
             box-shadow: 0 3px 8px rgba(199, 148, 28, 0.45);
             opacity: 0;
             transform: scale(0.4) rotate(-25deg);
-            transition: opacity 0.22s cubic-bezier(.34, 1.56, .64, 1), transform 0.22s cubic-bezier(.34, 1.56, .64, 1);
+            transition: all 0.22s ease;
         }
 
         .kategoriya.active .seal {
@@ -269,10 +238,7 @@
             transform: scale(1) rotate(0deg);
         }
 
-        /* --- INPUTS --- */
-        input[type="text"],
-        input[type="tel"],
-        textarea {
+        input[type="text"], input[type="tel"], textarea {
             width: 100%;
             padding: 13px 14px;
             border: 1.5px solid var(--line);
@@ -282,293 +248,74 @@
             font-family: 'Manrope', sans-serif;
             color: var(--ink);
             background: #FFFDF8;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: all 0.2s ease;
         }
 
-        input[type="text"]::placeholder,
-        input[type="tel"]::placeholder,
-        textarea::placeholder {
-            color: #A79E8C;
-        }
-
-        input[type="text"]:focus,
-        input[type="tel"]:focus,
-        textarea:focus {
+        input[type="text"]:focus, input[type="tel"]:focus, textarea:focus {
             border-color: var(--cobalt);
             box-shadow: 0 0 0 4px var(--cobalt-tint);
         }
 
-        .price-wrap {
-            position: relative;
-        }
+        .price-wrap, .phone-wrap { position: relative; }
+        .price-wrap input { padding-right: 52px; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+        .price-wrap .suffix { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+        .phone-wrap input { padding-left: 52px; font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+        .phone-wrap .prefix { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 14px; font-weight: 600; color: var(--ink-soft); }
+        textarea { height: 130px; resize: vertical; line-height: 1.5; }
 
-        .price-wrap input {
-            padding-right: 52px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-        }
-
-        .price-wrap .suffix {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--ink-soft);
-            pointer-events: none;
-        }
-
-        .phone-wrap {
-            position: relative;
-        }
-
-        .phone-wrap input {
-            padding-left: 52px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-        }
-
-        .phone-wrap .prefix {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--ink-soft);
-            pointer-events: none;
-        }
-
-        textarea {
-            height: 130px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        /* --- IMAGE UPLOAD --- */
-        .img-row {
-            display: flex;
-            gap: 10px;
-            align-items: stretch;
-        }
-
+        .img-row { display: flex; gap: 10px; align-items: stretch; }
         .file-btn {
-            position: relative;
-            flex: 1;
-            border: 1.5px dashed var(--line);
-            border-radius: 12px;
-            background: #FFFDF8;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 14px;
-            cursor: pointer;
-            transition: border-color 0.2s ease, background 0.2s ease;
+            position: relative; flex: 1; border: 1.5px dashed var(--line); border-radius: 12px; background: #FFFDF8;
+            display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; transition: all 0.2s ease;
         }
-
-        .file-btn:hover {
-            border-color: var(--turquoise);
-            background: #F5FBFA;
-        }
-
-        .file-btn input[type="file"] {
-            position: absolute;
-            inset: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .file-btn .ikon {
-            font-size: 18px;
-        }
-
-        .file-btn .txt {
-            font-size: 13.5px;
-            font-weight: 600;
-            color: var(--ink-soft);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+        .file-btn:hover { border-color: var(--turquoise); background: #F5FBFA; }
+        .file-btn input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .file-btn .txt { font-size: 13.5px; font-weight: 600; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         .btn-upload {
-            border: none;
-            border-radius: 12px;
-            padding: 0 20px;
-            background: var(--turquoise);
-            color: #fff;
-            font-size: 13.5px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.15s ease;
-            white-space: nowrap;
+            border: none; border-radius: 12px; padding: 0 20px; background: var(--turquoise); color: #fff; font-size: 13.5px;
+            font-weight: 700; cursor: pointer; transition: all 0.15s ease; white-space: nowrap;
         }
+        .btn-upload:hover { background: #256E6E; }
+        .btn-upload:active { transform: scale(0.97); }
 
-        .btn-upload:hover {
-            background: #256E6E;
-        }
+        .preview-row { display: flex; align-items: center; gap: 12px; min-height: 0; }
+        .preview-thumb { width: 56px; height: 56px; border-radius: 10px; border: 1.5px solid var(--line); object-fit: cover; display: none; background: var(--cobalt-tint); }
+        .preview-row.has-img .preview-thumb { display: block; }
+        .url-fallback { font-size: 12px; color: var(--ink-soft); }
 
-        .btn-upload:active {
-            transform: scale(0.97);
-        }
-
-        .btn-upload:disabled {
-            opacity: 0.6;
-            cursor: progress;
-        }
-
-        .preview-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-height: 0;
-        }
-
-        .preview-thumb {
-            width: 56px;
-            height: 56px;
-            border-radius: 10px;
-            border: 1.5px solid var(--line);
-            object-fit: cover;
-            display: none;
-            background: var(--cobalt-tint);
-        }
-
-        .preview-row.has-img .preview-thumb {
-            display: block;
-        }
-
-        .url-fallback {
-            font-size: 12px;
-            color: var(--ink-soft);
-        }
-
-        /* --- SUBMIT --- */
         .btnsave {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            background: var(--cobalt);
-            color: #fff;
-            font-size: 16px;
-            font-weight: 700;
-            font-family: 'Manrope', sans-serif;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.15s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 4px;
+            width: 100%; padding: 16px; border: none; border-radius: 14px; background: var(--cobalt); color: #fff; font-size: 16px;
+            font-weight: 700; font-family: 'Manrope', sans-serif; cursor: pointer; transition: all 0.15s ease;
+            display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px;
         }
+        .btnsave:hover { background: var(--cobalt-deep); }
+        .btnsave:active { transform: scale(0.99); }
 
-        .btnsave:hover {
-            background: var(--cobalt-deep);
-        }
-
-        .btnsave:active {
-            transform: scale(0.99);
-        }
-
-        .status {
-            font-size: 13.5px;
-            font-weight: 600;
-            border-radius: 10px;
-            padding: 11px 14px;
-            display: none;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status.show {
-            display: flex;
-        }
-
-        .status.ok {
-            background: var(--ok-tint);
-            color: var(--ok);
-        }
-
-        .status.err {
-            background: var(--error-tint);
-            color: var(--error);
-        }
+        .status { font-size: 13.5px; font-weight: 600; border-radius: 10px; padding: 11px 14px; display: none; align-items: center; gap: 8px; }
+        .status.show { display: flex; }
+        .status.ok { background: var(--ok-tint); color: var(--ok); }
+        .status.err { background: var(--error-tint); color: var(--error); }
 
         .home-btn {
-            position: fixed;
-            top: 22px;
-            left: 22px;
-            z-index: 5;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: var(--card);
-            border: 1.5px solid var(--line);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            text-decoration: none;
-            box-shadow: 0 10px 24px -12px rgba(38, 32, 26, 0.28);
-            transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+            position: fixed; top: 22px; left: 22px; z-index: 5; width: 46px; height: 46px; border-radius: 50%;
+            background: var(--card); border: 1.5px solid var(--line); display: flex; align-items: center; justify-content: center;
+            font-size: 20px; text-decoration: none; box-shadow: 0 10px 24px -12px rgba(38, 32, 26, 0.28); transition: all 0.18s ease;
         }
+        .home-btn:hover { border-color: var(--cobalt); background: var(--cobalt-tint); transform: translateY(-2px); }
 
-        .home-btn:hover {
-            border-color: var(--cobalt);
-            background: var(--cobalt-tint);
-            transform: translateY(-2px);
-        }
-
-        .home-btn:active {
-            transform: scale(0.95);
-        }
+        footer.note { text-align: center; font-size: 12px; color: var(--ink-soft); }
 
         @media (max-width: 480px) {
-            .home-btn {
-                top: 14px;
-                left: 14px;
-                width: 42px;
-                height: 42px;
-                font-size: 18px;
-            }
-        }
-
-        footer.note {
-            text-align: center;
-            font-size: 12px;
-            color: var(--ink-soft);
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 28px 14px;
-            }
-
-            .kategoriya-konteyner {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .card-head,
-            .card-content {
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-
-            .img-row {
-                flex-direction: column;
-            }
-
-            .btn-upload {
-                padding: 12px;
-            }
+            body { padding: 28px 14px; }
+            .kategoriya-konteyner { grid-template-columns: repeat(2, 1fr); }
+            .img-row { flex-direction: column; }
         }
     </style>
 </head>
 
 <body>
-<audio id="qabulOvoz" src="Assalomu alaykum Esl.m4a" autoplay preload="auto" style="display:none;"></audio>
+    <audio id="qabulOvoz" src="Assalomu alaykum Esl.m4a" autoplay preload="auto" style="display:none;"></audio>
     <script>
         (function() {
             var audio = document.getElementById('qabulOvoz');
@@ -577,8 +324,6 @@
                 var p = audio.play();
                 if (p !== undefined) {
                     p.catch(function() {
-                        // Brauzer avtomatik ijro etishni bloklagan bo'lsa,
-                        // birinchi bosishda ijro etamiz.
                         document.addEventListener('click', function playOnce() {
                             audio.play();
                             document.removeEventListener('click', playOnce);
@@ -589,7 +334,7 @@
             window.addEventListener('DOMContentLoaded', tryPlay);
         })();
     </script>
-    <a class="home-btn" href="index.html" title="Bosh sahifaga qaytish">🏠</a>
+    <a class="home-btn" href="index.html">🏠</a>
     <div class="wrap">
         <div class="card">
             <div class="card-head">
@@ -602,90 +347,40 @@
                 <fieldset>
                     <span class="field-label">Bo'limni tanlang</span>
                     <div class="kategoriya-konteyner">
-                        <div class="kategoriya" data-val="Avtomobillar">
-                            <span class="ikon">🚗</span><span class="lbl">Avtomobillar</span>
-                            <span class="seal">✓</span>
-                        </div>
-                        <div class="kategoriya" data-val="Uy-joy">
-                            <span class="ikon">🏡</span><span class="lbl">Uy-joy</span>
-                            <span class="seal">✓</span>
-                        </div>
-                        <div class="kategoriya" data-val="Elektronika">
-                            <span class="ikon">💻</span><span class="lbl">Elektronika</span>
-                            <span class="seal">✓</span>
-                        </div>
-                        <div class="kategoriya" data-val="Maishiy texnika">
-                            <span class="ikon">🗄️</span><span class="lbl">Maishiy texnika</span>
-                            <span class="seal">✓</span>
-                        </div>
-                        <div class="kategoriya" data-val="Ish">
-                            <span class="ikon">👨‍⚕️</span><span class="lbl">Ish</span>
-                            <span class="seal">✓</span>
-                        </div>
-                        <div class="kategoriya" data-val="Xizmatlar">
-                            <span class="ikon">👷‍♂️</span><span class="lbl">Xizmatlar</span>
-                            <span class="seal">✓</span>
-                        </div>
-                        <div class="kategoriya" data-val="Ta'lim">
-                            <span class="ikon">🎓</span><span class="lbl">Ta'lim</span>
-                            <span class="seal">✓</span>
-                        </div>
-                        <div class="kategoriya" data-val="Kiyim kechak">
-                            <span class="ikon">👕</span><span class="lbl">Kiyim kechak</span>
-                            <span class="seal">✓</span>
-                        </div>
-                        <div class="kategoriya" data-val="Oziq-ovqat">
-                            <span class="ikon">🍎</span><span class="lbl">Oziq-ovqat</span>
-                            <span class="seal">✓</span>
-                        </div>
+                        <div class="kategoriya" data-val="Avtomobillar"><span class="ikon">🚗</span><span class="lbl">Avtomobillar</span><span class="seal">✓</span></div>
+                        <div class="kategoriya" data-val="Uy-joy"><span class="ikon">🏡</span><span class="lbl">Uy-joy</span><span class="seal">✓</span></div>
+                        <div class="kategoriya" data-val="Elektronika"><span class="ikon">💻</span><span class="lbl">Elektronika</span><span class="seal">✓</span></div>
+                        <div class="kategoriya" data-val="Maishiy texnika"><span class="ikon">🗄️</span><span class="lbl">Maishiy texnika</span><span class="seal">✓</span></div>
+                        <div class="kategoriya" data-val="Ish"><span class="ikon">👨‍⚕️</span><span class="lbl">Ish</span><span class="seal">✓</span></div>
+                        <div class="kategoriya" data-val="Xizmatlar"><span class="ikon">👷‍♂️</span><span class="lbl">Xizmatlar</span><span class="seal">✓</span></div>
+                        <div class="kategoriya" data-val="Ta'lim"><span class="ikon">🎓</span><span class="lbl">Ta'lim</span><span class="seal">✓</span></div>
+                        <div class="kategoriya" data-val="Kiyim kechak"><span class="ikon">👕</span><span class="lbl">Kiyim kechak</span><span class="seal">✓</span></div>
+                        <div class="kategoriya" data-val="Oziq-ovqat"><span class="ikon">🍎</span><span class="lbl">Oziq-ovqat</span><span class="seal">✓</span></div>
                     </div>
                 </fieldset>
 
-                <fieldset>
-                    <label class="field-label" for="name">Nomi</label>
-                    <input type="text" id="name" placeholder="Mahsulot nomi:">
-                </fieldset>
+                <fieldset><label class="field-label" for="name">Nomi</label><input type="text" id="name" placeholder="Mahsulot nomi:"></fieldset>
+                <fieldset><label class="field-label" for="price">Narxi</label><div class="price-wrap"><input type="text" id="price" placeholder="Mahsulot narxi:"><span class="suffix">so'm</span></div></fieldset>
+                <fieldset><label class="field-label" for="phone">Telefon raqami</label><div class="phone-wrap"><span class="prefix">+998</span><input type="tel" id="phone" placeholder="Telefon nomer:" maxlength="9"></div></fieldset>
 
                 <fieldset>
-                    <label class="field-label" for="price">Narxi</label>
-                    <div class="price-wrap">
-                        <input type="text" id="price" placeholder="Mahsulot narxi:">
-                        <span class="suffix">so'm</span>
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <label class="field-label" for="phone">Telefon raqami</label>
-                    <div class="phone-wrap">
-                        <span class="prefix">+998</span>
-                        <input type="tel" id="phone" placeholder="Telefon nomer:" maxlength="9">
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <span class="field-label">Rasm <span class="hint">— fayldan yuklang yoki havola
-                            kiriting</span></span>
+                    <span class="field-label">Rasm <span class="hint">— fayldan yoki havola orqali</span></span>
                     <div class="img-row">
-                        <label class="file-btn">
-                            <span class="ikon">📷</span>
-                            <span class="txt" id="fileLabel">Rasm tanlash</span>
-                            <input type="file" id="fileInput" accept="image/*" capture="environment">
-                        </label>
+                        <label class="file-btn"><span class="ikon">📷</span><span class="txt" id="fileLabel">Rasm tanlash</span><input type="file" id="fileInput" accept="image/*" capture="environment"></label>
                         <button class="btn-upload" id="yuklash" type="button">Yuklash</button>
                     </div>
-                    <div class="preview-row" id="previewRow">
-                        <img class="preview-thumb" id="preview">
-                        <span class="url-fallback">yoki quyiga havola (URL) qo'ying:</span>
-                    </div>
+                    <div class="preview-row" id="previewRow"><img class="preview-thumb" id="preview"><span class="url-fallback">yoki havola qo'ying:</span></div>
                     <input type="text" id="img" placeholder="Rasm URL:">
                 </fieldset>
 
-                <fieldset>
-                    <label class="field-label" for="about">Ma'lumot</label>
-                    <textarea id="about" placeholder="Holati, tafsilotlar, kelishuv shartlari..."></textarea>
-                </fieldset>
+                <fieldset><label class="field-label" for="about">Ma'lumot</label><textarea id="about" placeholder="Holati, tafsilotlar..."></textarea></fieldset>
 
                 <div class="status" id="status"></div>
+
+                <!-- Adminga xabar berish tizimi elementlari -->
+                <button id="adminMessageBtn" type="button" style="display:none; width:100%; padding:14px; border:1px solid var(--error); border-radius:14px; background:var(--error-tint); color:var(--error); font-size:15px; font-weight:700; cursor:pointer; margin-bottom:10px;">
+                    📩 Adminga murojaat qilish
+                </button>
 
                 <button class="btnsave" type="button">E'lonni joylashtirish →</button>
             </div>
@@ -693,8 +388,24 @@
         <footer class="note">Barcha maydonlarni to'ldiring — e'lon bazaga shu zahoti qo'shiladi.</footer>
     </div>
 
+    <!-- MODAL POPUP -->
+    <div id="contactModal" style="display:none; position:fixed; inset:0; background:rgba(38,32,26,0.6); z-index:100; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px);">
+        <div style="background:var(--card); width:100%; max-width:420px; border-radius:20px; border:1px solid var(--line); box-shadow:0 20px 40px rgba(0,0,0,0.3); overflow:hidden;">
+            <div style="background:linear-gradient(180deg, var(--cobalt-tint), rgba(255,255,255,0)); padding:20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; font-family:'Fraunces', serif; font-size:18px;">Adminga ariza yuborish</h3>
+                <span id="closeModal" style="cursor:pointer; font-size:24px; font-weight:bold; color:var(--ink-soft); line-height:1;">&times;</span>
+            </div>
+            <div style="padding:20px; display:flex; flex-direction:column; gap:14px;">
+                <p style="font-size:13px; color:var(--ink-soft); margin:0;">Bloklanish bo'yicha e'tirozingiz yoki uzringizni yozing. Admin ko'rib chiqib sizni qora ro'yxatdan ochadi.</p>
+                <textarea id="modalMessage" placeholder="Xabaringizni yozing..." style="height:100px;"></textarea>
+                <button id="sendMessageBtn" type="button" class="btnsave" style="margin:0; padding:12px;">Yuborish →</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
+        import { getDatabase, ref, set, get, push, onValue } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyAVpu359-UXW_iEGPMZxeMmYQUYCW0hCWg",
@@ -706,30 +417,15 @@
         };
 
         const app = initializeApp(firebaseConfig);
-
-        import {
-            getDatabase,
-            ref,
-            set,
-            get
-        } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js';
-
         const db = getDatabase();
 
-        // ====== FOYDALANUVCHI ID (bir marta yaratiladi, brauzerda saqlanadi) ======
         function getDeviceId() {
             let id = localStorage.getItem('deviceId');
-            if (!id) {
-                id = crypto.randomUUID();
-                localStorage.setItem('deviceId', id);
-            }
+            if (!id) { id = crypto.randomUUID(); localStorage.setItem('deviceId', id); }
             return id;
         }
         const deviceId = getDeviceId();
 
-        // ====== SO'KINISH SO'ZLARI RO'YXATI ======
-        // Nomi, narxi, telefon, ma'lumot — qaysi maydonda bo'lishidan qat'iy
-        // nazar shu so'zlardan biri topilsa, foydalanuvchi bloklanadi.
         const SOKINISH_SOZLAR = [
             "blyat", "blya", "suka", "hуй", "xuy", "huy", "pizdes", "pizdec", "pidor",
             "pidr", "yebat", "yeban", "ebu", "muda", "mudak", "gandon", "gondon",
@@ -744,10 +440,7 @@
         ];
 
         function normalizeMatn(str) {
-            return (str || "")
-                .toLowerCase()
-                .replace(/ʻ|ʼ|'|`|’|‘/g, "")
-                .replace(/\s+/g, "");
+            return (str || "").toLowerCase().replace(/ʻ|ʼ|'|`|’|‘/g, "").replace(/\s+/g, "");
         }
 
         function sokinishTop(matn) {
@@ -762,39 +455,66 @@
         let about = document.getElementById('about');
         let btnsave = document.querySelector('.btnsave');
         let statusEl = document.getElementById('status');
+        
+        const adminMessageBtn = document.getElementById('adminMessageBtn');
+        const contactModal = document.getElementById('contactModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+
+        let bloklanganmi = false;
 
         function showStatus(type, msg) {
             statusEl.className = 'status show ' + type;
             statusEl.textContent = msg;
         }
 
-        // ====== QORA RO'YXATNI TEKSHIRISH ======
-        // Sahifa ochilishida, shu deviceId qora ro'yxatda bormi tekshiramiz.
-        // Bo'lsa — tugmani o'chirib, sababini ko'rsatamiz.
-        let bloklanganmi = false;
-
-        async function bloklanganlikniTekshir() {
-            try {
-                const snap = await get(ref(db, 'QoraRoyxat/' + deviceId));
-                if (snap.exists()) {
-                    const data = snap.val();
-                    bloklanganmi = true;
-                    btnsave.disabled = true;
-                    btnsave.textContent = "Siz bloklangansiz";
-                    btnsave.style.opacity = '0.5';
-                    btnsave.style.cursor = 'not-allowed';
-                    showStatus('err', "Siz qora ro'yxatga tushgansiz va e'lon qo'sha olmaysiz. Sabab: " + (data.sabab || "so'kinish so'zi ishlatilgani uchun"));
-                    return true;
-                }
-            } catch (e) {
-                // tarmoq xatosi bo'lsa, jim o'tkazamiz - forma ishlashda davom etadi
-            }
-            return false;
+        function bloklanganInterfeys(sabab) {
+            btnsave.disabled = true;
+            btnsave.textContent = "Siz bloklangansiz";
+            btnsave.style.opacity = '0.5';
+            btnsave.style.cursor = 'not-allowed';
+            adminMessageBtn.style.display = 'block';
+            showStatus('err', "Siz qora ro'yxatga tushgansiz! Sabab: " + sabab);
         }
 
-        // Qora ro'yxatga qo'shish (bloklash)
+        function unBloklanishInterfeys() {
+            bloklanganmi = false;
+            btnsave.disabled = false;
+            btnsave.textContent = "E'lonni joylashtirish →";
+            btnsave.style.opacity = '1';
+            btnsave.style.cursor = 'pointer';
+            adminMessageBtn.style.display = 'none';
+            statusEl.className = 'status';
+        }
+
+        // Realtime blokni tekshirib turish (Admin ochsa darhol tiklanadi)
+        onValue(ref(db, 'QoraRoyxat/' + deviceId), (snap) => {
+            if (snap.exists()) {
+                const data = snap.val();
+                bloklanganmi = true;
+                bloklanganInterfeys(data.sabab || "Tizim qoidalarini buzganlik");
+            } else {
+                unBloklanishInterfeys();
+            }
+        });
+
+        // Admin javob yozsa foydalanuvchiga alert chiqarish
+        onValue(ref(db, 'Murojaatlar'), (snap) => {
+            if(snap.exists()) {
+                snap.forEach((child) => {
+                    const m = child.val();
+                    if(m.deviceId === deviceId && m.javob && m.status === "korildi") {
+                        // Bir marta ko'rsatilganidan keyin qayta chiqmasligi uchun statusni o'zgartiramiz
+                        set(ref(db, `Murojaatlar/${m.murojaatId}/status`), "foydalanuvchi_gup");
+                        alert("Admin sizning arizangizga javob berdi:\n\n" + m.javob);
+                    }
+                });
+            }
+        });
+
         async function foydalanuvchiniBlokla(maydonNomi, topilganSoz) {
-            const sabab = `"${maydonNomi}" maydonida so'kinish so'zi ishlatilgani uchun bloklandingiz.`;
+            const sabab = `"${maydonNomi}" maydonida haqoratli so'z ishlatilgan.`;
             try {
                 await set(ref(db, 'QoraRoyxat/' + deviceId), {
                     id: deviceId,
@@ -802,29 +522,13 @@
                     maydon: maydonNomi,
                     sana: new Date().toISOString()
                 });
-            } catch (e) {
-                // yozib bo'lmasa ham foydalanuvchini bloklaymiz (client tarafda)
-            }
-            bloklanganmi = true;
-            btnsave.disabled = true;
-            btnsave.textContent = "Siz bloklangansiz";
-            btnsave.style.opacity = '0.5';
-            btnsave.style.cursor = 'not-allowed';
-            alert("Siz bloklandingiz!\n\n" + sabab + "\n\nEndi yangi e'lon qo'sha olmaysiz.");
-            showStatus('err', sabab);
+            } catch (e) {}
+            alert("Siz bloklandingiz!\n\n" + sabab + "\n\nAdminga ariza yuborishingiz mumkin.");
         }
 
-        bloklanganlikniTekshir();
+        phone.addEventListener('input', () => { phone.value = phone.value.replace(/\D/g, '').slice(0, 9); });
 
-        // Faqat raqam kiritishga ruxsat berish (telefon maydoni uchun)
-        phone.addEventListener('input', () => {
-            phone.value = phone.value.replace(/\D/g, '').slice(0, 9);
-        });
-
-        // Tanlangan kategoriyani eslab qolish uchun o'zgaruvchi
         let tanlanganKategoriya = "";
-
-        // --- KATEGORIYALARGA KLIK HODISASINI QO'SHISH ---
         const kategoriyalar = document.querySelectorAll('.kategoriya');
         kategoriyalar.forEach(kat => {
             kat.addEventListener('click', function () {
@@ -835,45 +539,22 @@
         });
 
         async function InsertData() {
-            // Har bosishda qora ro'yxatni qayta tekshiramiz
-            // (masalan ikkinchi tabda bloklangan bo'lsa ham ushlab qoladi)
-            const hozirBloklanganmi = await bloklanganlikniTekshir();
-            if (hozirBloklanganmi || bloklanganmi) return;
+            if (bloklanganmi) return;
 
-            if (!tanlanganKategoriya) {
-                showStatus('err', "Iltimos, avval bo'limlardan birini tanlang!");
-                return;
-            }
+            if (!tanlanganKategoriya) { showStatus('err', "Iltimos, avval bo'limlardan birini tanlang!"); return; }
             if (name.value.trim() === "" || price.value.trim() === "" || phone.value.trim() === "" || img.value.trim() === "" || about.value.trim() === "") {
-                showStatus('err', "Bo'sh joy mavjud! Iltimos, barcha maydonlarni to'ldiring.");
-                return;
+                showStatus('err', "Bo'sh joy mavjud! Iltimos, barcha maydonlarni to'ldiring."); return;
             }
-            if (phone.value.trim().length !== 9) {
-                showStatus('err', "Telefon raqami noto'g'ri! 9 ta raqam kiriting (masalan: 901234567).");
-                return;
-            }
+            if (phone.value.trim().length !== 9) { showStatus('err', "Telefon raqami noto'g'ri!"); return; }
 
-            // ====== SO'KINISHNI TEKSHIRISH ======
-            // Ma'lumot qaysi maydonda (nomi, narxi, telefon, ma'lumot) bo'lishidan
-            // qat'iy nazar — topilsa, mahsulot saqlanmaydi va foydalanuvchi bloklanadi.
-            const tekshiriladiganMaydonlar = {
-                "Nomi": name.value,
-                "Narxi": price.value,
-                "Ma'lumot": about.value
-            };
+            const tekshiriladiganMaydonlar = { "Nomi": name.value, "Narxi": price.value, "Ma'lumot": about.value };
             for (const [maydonNomi, qiymat] of Object.entries(tekshiriladiganMaydonlar)) {
                 const topilganSoz = sokinishTop(qiymat);
-                if (topilganSoz) {
-                    await foydalanuvchiniBlokla(maydonNomi, topilganSoz);
-                    return;
-                }
+                if (topilganSoz) { await foydalanuvchiniBlokla(maydonNomi, topilganSoz); return; }
             }
 
-            const dbRef = ref(db, 'Maxsulotlar');
-
-            get(dbRef).then((snapshot) => {
+            get(ref(db, 'Maxsulotlar')).then((snapshot) => {
                 let nextIndex = 0;
-
                 if (snapshot.exists()) {
                     const data = snapshot.val();
                     nextIndex = Array.isArray(data) ? data.length : Object.keys(data).length;
@@ -887,36 +568,53 @@
                     phone: "+998" + phone.value.trim(),
                     img: img.value,
                     about: about.value
-                })
-                    .then(() => {
+                }).then(() => {
                         showStatus('ok', "Ma'lumot muvaffaqiyatli qo'shildi!");
-
-                        // Shu e'lon ID sini "o'zimniki" ro'yxatiga qo'shamiz —
-                        // shunda index.html sahifasida faqat shu brauzerda
-                        // qo'shilgan e'lonlarda "Sizniki" belgisi va
-                        // "O'chirish" tugmasi ko'rinadi.
                         try {
                             const mening = JSON.parse(localStorage.getItem('meningElonlarim') || '[]');
                             mening.push(nextIndex);
                             localStorage.setItem('meningElonlarim', JSON.stringify(mening));
-                        } catch (e) { /* e'tiborsiz qoldiriladi */ }
+                        } catch (e) {}
 
                         name.value = ''; price.value = ''; phone.value = ''; img.value = ''; about.value = '';
                         kategoriyalar.forEach(k => k.classList.remove('active'));
                         tanlanganKategoriya = "";
                         document.getElementById('previewRow').classList.remove('has-img');
                         document.getElementById('fileLabel').textContent = 'Rasm tanlash';
-                    })
-                    .catch((error) => {
-                        showStatus('err', 'Xatolik: ' + error);
-                    });
-
-            }).catch((error) => {
-                showStatus('err', "Bazadan ma'lumot olishda xatolik: " + error);
+                    }).catch((error) => { showStatus('err', 'Xatolik: ' + error); });
             });
         }
 
         btnsave.addEventListener('click', InsertData);
+
+        // MODAL OYNA KLIKLARI
+        adminMessageBtn.addEventListener('click', () => { contactModal.style.display = 'flex'; });
+        closeModal.addEventListener('click', () => { contactModal.style.display = 'none'; });
+        window.addEventListener('click', (e) => { if (e.target === contactModal) contactModal.style.display = 'none'; });
+
+        sendMessageBtn.addEventListener('click', async () => {
+            const matn = modalMessage.value.trim();
+            if(!matn) return alert("Ariza matnini kiriting!");
+            
+            sendMessageBtn.disabled = true;
+            sendMessageBtn.textContent = "Yuborilmoqda...";
+
+            try {
+                const yangiMurojaatRef = push(ref(db, 'Murojaatlar'));
+                await set(yangiMurojaatRef, {
+                    murojaatId: yangiMurojaatRef.key,
+                    deviceId: deviceId,
+                    xabar: matn,
+                    sana: new Date().toISOString(),
+                    status: "yangi",
+                    javob: ""
+                });
+                alert("Arizangiz adminga jo'natildi! Admin ko'rib chiqqach javob shu yerda chiqadi.");
+                modalMessage.value = "";
+                contactModal.style.display = 'none';
+            } catch(e) { alert("Xato: " + e.message); }
+            finally { sendMessageBtn.disabled = false; sendMessageBtn.textContent = "Yuborish →"; }
+        });
 
         document.getElementById('fileInput').addEventListener('change', (e) => {
             const f = e.target.files[0];
@@ -924,50 +622,30 @@
         });
 
         const API_KEY = "5d65ff7847c7b63ec3494a8666288e1e";
-
         async function upload() {
             const fileInput = document.getElementById("fileInput");
             const file = fileInput.files[0];
             const uploadBtn = document.getElementById('yuklash');
-            if (!file) {
-                showStatus('err', "Iltimos, avval rasm tanlang!");
-                return;
-            }
+            if (!file) { showStatus('err', "Iltimos, avval rasm tanlang!"); return; }
 
             const formData = new FormData();
             formData.append("image", file);
-
-            uploadBtn.disabled = true;
-            uploadBtn.textContent = "Yuklanmoqda...";
+            uploadBtn.disabled = true; uploadBtn.textContent = "Yuklanmoqda...";
 
             try {
-                const res = await fetch(
-                    `https://api.imgbb.com/1/upload?key=${API_KEY}`,
-                    { method: "POST", body: formData }
-                );
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${API_KEY}`, { method: "POST", body: formData });
                 const data = await res.json();
-
-                if (!data.success) {
-                    showStatus('err', "Xatolik: " + JSON.stringify(data.error));
-                    return;
-                }
+                if (!data.success) { showStatus('err', "Xatolik."); return; }
 
                 const url = data.data.url;
                 img.value = url;
-
-                const preview = document.getElementById("preview");
-                preview.src = url;
+                document.getElementById("preview").src = url;
                 document.getElementById('previewRow').classList.add('has-img');
                 showStatus('ok', "Rasm muvaffaqiyatli yuklandi!");
-            } catch (err) {
-                showStatus('err', "Yuklashda xatolik: " + err);
-            } finally {
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = "Yuklash";
-            }
+            } catch (err) { showStatus('err', "Xatolik: " + err); }
+            finally { uploadBtn.disabled = false; uploadBtn.textContent = "Yuklash"; }
         }
         document.getElementById('yuklash').addEventListener('click', upload);
     </script>
 </body>
-
 </html>

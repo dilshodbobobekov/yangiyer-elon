@@ -187,6 +187,7 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .stat-pill {
@@ -270,7 +271,7 @@
             padding: 20px 5% 70px;
         }
 
-        #tableBody h1 {
+        #tableBody h1, #blacklistBody h1, #chatsBody h1 {
             text-align: center;
             font-family: 'Fraunces', serif;
             font-weight: 600;
@@ -279,6 +280,7 @@
             background: var(--card);
             border: 1px dashed var(--paper-line);
             border-radius: 18px;
+            width: 100%;
         }
 
         .row-card {
@@ -441,8 +443,9 @@
                 grid-column: 1 / -1;
             }
 
-            .btn-del {
+            .btn-del, .btn-ok {
                 width: 100%;
+                text-align: center;
             }
 
             .row-about {
@@ -480,41 +483,55 @@
             </div>
             <div class="topbar-actions">
                 <span class="stat-pill" id="countPill">0 ta e'lon</span>
+                <button class="logout-btn" id="chatsToggleBtn">💬 Murojaatlar (<span id="chatsCount">0</span>)</button>
                 <button class="logout-btn" id="blacklistToggleBtn">🚫 Qora ro'yxat (<span id="blacklistCount">0</span>)</button>
                 <button class="logout-btn" id="logoutBtn">Chiqish</button>
             </div>
         </div>
 
+        <!-- MAHSULOTLAR RO'YXATI -->
         <div id="productsView">
-        <div class="toolbar" id="toolbar">
-            <div class="chip active" data-filter="hammasi">🗂️ Hammasi</div>
-            <div class="chip" data-filter="avtomobillar">🚗 Avtomobillar</div>
-            <div class="chip" data-filter="uy-joy">🏡 Uy-joy</div>
-            <div class="chip" data-filter="telefon">📱 Telefon</div>
-            <div class="chip" data-filter="ish">👨‍⚕️ Ish</div>
-            <div class="chip" data-filter="xizmatlar">👷 Xizmatlar</div>
-            <div class="chip" data-filter="talim">🎓 Ta'lim</div>
-            <div class="chip" data-filter="kiyim-kechak">👕 Kiyim-kechak</div>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Qidirish (nomi bo'yicha)...">
+            <div class="toolbar" id="toolbar">
+                <div class="chip active" data-filter="hammasi">🗂️ Hammasi</div>
+                <div class="chip" data-filter="avtomobillar">🚗 Avtomobillar</div>
+                <div class="chip" data-filter="uy-joy">🏡 Uy-joy</div>
+                <div class="chip" data-filter="telefon">📱 Telefon</div>
+                <div class="chip" data-filter="ish">👨‍⚕️ Ish</div>
+                <div class="chip" data-filter="xizmatlar">👷 Xizmatlar</div>
+                <div class="chip" data-filter="talim">🎓 Ta'lim</div>
+                <div class="chip" data-filter="kiyim-kechak">👕 Kiyim-kechak</div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Qidirish (nomi bo'yicha)...">
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <div id="tableBody"></div>
             </div>
         </div>
 
-        <div class="table-wrap">
-            <div id="tableBody"></div>
-        </div>
-        </div>
-
-        <!-- ===== QORA RO'YXAT (faqat admin ko'radi) ===== -->
+        <!-- QORA RO'YXAT BO'LIMI -->
         <div id="blacklistView" style="display:none;">
             <div class="toolbar">
                 <p style="font-size:13.5px;color:var(--muted);padding:6px 4px;">
                     Bu yerda so'kinish so'zi ishlatgani uchun avtomatik bloklangan foydalanuvchilar ro'yxati.
-                    Bloklashni bekor qilish uchun "Ro'yxatdan chiqarish" tugmasini bosing — u holda foydalanuvchi qayta e'lon qo'sha oladi.
+                    Bloklashni bekor qilish uchun "Ro'yxatdan chiqarish" tugmasini bosing.
                 </p>
             </div>
             <div class="table-wrap">
                 <div id="blacklistBody"></div>
+            </div>
+        </div>
+
+        <!-- CHATLAR / MUROJAATLAR BO'LIMI -->
+        <div id="chatsView" style="display:none;">
+            <div class="toolbar">
+                <p style="font-size:13.5px; color:var(--muted); padding:6px 4px;">
+                    Bloklangan foydalanuvchilardan kelgan arizalar. Ularga javob yozishingiz va blokdan chiqarishingiz mumkin.
+                </p>
+            </div>
+            <div class="table-wrap">
+                <div id="chatsBody"></div>
             </div>
         </div>
     </div>
@@ -523,7 +540,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        import { getDatabase, ref, onValue, remove, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAVpu359-UXW_iEGPMZxeMmYQUYCW0hCWg",
@@ -537,10 +554,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // ====== PAROL ======
-        // DIQQAT: bu parol shu faylning ichida ochiq turadi (kim manba kodini
-        // ko'rsa, ko'ra oladi). Bu faqat oddiy to'siq, chinakam xavfsizlik emas.
-        // Chinakam himoya kerak bo'lsa, Firebase Authentication ishlatish kerak.
         const ADMIN_PASSWORD = "bschool";
 
         const loginScreen = document.getElementById('loginScreen');
@@ -558,21 +571,34 @@
         let currentFilter = "hammasi";
         let currentSearch = "";
 
-        // ===== QORA RO'YXAT (faqat admin ko'radi) =====
-        let blacklistItems = [];
+        // Bo'lim panellari elementlari
         const productsView = document.getElementById('productsView');
         const blacklistView = document.getElementById('blacklistView');
         const blacklistToggleBtn = document.getElementById('blacklistToggleBtn');
         const blacklistBody = document.getElementById('blacklistBody');
         const blacklistCount = document.getElementById('blacklistCount');
-        let blacklistKorinyapti = false;
+        
+        const chatsView = document.getElementById('chatsView');
+        const chatsToggleBtn = document.getElementById('chatsToggleBtn');
+        const chatsBody = document.getElementById('chatsBody');
+        const chatsCount = document.getElementById('chatsCount');
 
+        let blacklistItems = [];
+        let chatItems = [];
+        
+        let blacklistKorinyapti = false;
+        let chatsKorinyapti = false;
+
+        // Navigatsiya boshqaruvi
         blacklistToggleBtn.addEventListener('click', () => {
             blacklistKorinyapti = !blacklistKorinyapti;
+            chatsKorinyapti = false;
             if (blacklistKorinyapti) {
                 productsView.style.display = 'none';
+                chatsView.style.display = 'none';
                 blacklistView.style.display = 'block';
-                blacklistToggleBtn.textContent = '🗂️ Mahsulotlarga qaytish';
+                blacklistToggleBtn.textContent = '🗂️ Mahsulotlar';
+                chatsToggleBtn.innerHTML = `💬 Murojaatlar (<span id="chatsCount">${chatItems.length}</span>)`;
             } else {
                 productsView.style.display = 'block';
                 blacklistView.style.display = 'none';
@@ -580,62 +606,21 @@
             }
         });
 
-        function renderBlacklist() {
-            blacklistCount.textContent = blacklistItems.length;
-
-            if (blacklistItems.length === 0) {
-                blacklistBody.innerHTML = "<h1>Qora ro'yxat bo'sh</h1>";
-                return;
+        chatsToggleBtn.addEventListener('click', () => {
+            chatsKorinyapti = !chatsKorinyapti;
+            blacklistKorinyapti = false;
+            if (chatsKorinyapti) {
+                productsView.style.display = 'none';
+                blacklistView.style.display = 'none';
+                chatsView.style.display = 'block';
+                chatsToggleBtn.textContent = '🗂️ Mahsulotlar';
+                blacklistToggleBtn.innerHTML = "🚫 Qora ro'yxat (<span id=\"blacklistCount\">" + blacklistItems.length + "</span>)";
+            } else {
+                productsView.style.display = 'block';
+                chatsView.style.display = 'none';
+                chatsToggleBtn.innerHTML = `💬 Murojaatlar (<span id="chatsCount">${chatItems.length}</span>)`;
             }
-
-            blacklistBody.innerHTML = blacklistItems.map(item => `
-            <div class="row-card no-img">
-                <div class="row-info">
-                    <div class="row-top">
-                        <span class="row-name">ID: ${item.id}</span>
-                    </div>
-                    <div class="row-meta">
-                        <span>${item.sana ? new Date(item.sana).toLocaleString('uz-UZ') : ''}</span>
-                        ${item.maydon ? `<span><b>Maydon:</b> ${item.maydon}</span>` : ""}
-                    </div>
-                    <div class="row-about"><b>Sabab:</b> ${item.sabab || "Noma'lum"}</div>
-                </div>
-                <div class="row-actions">
-                    <button class="btn-ok" data-id="${item.id}">✅ Ro'yxatdan chiqarish</button>
-                </div>
-            </div>
-        `).join("");
-
-            document.querySelectorAll("#blacklistBody .btn-ok").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    unblockUser(btn.getAttribute("data-id"));
-                });
-            });
-        }
-
-        function unblockUser(id) {
-            if (!confirm("Ushbu foydalanuvchini qora ro'yxatdan chiqarmoqchimisiz? U qayta e'lon qo'sha oladi.")) return;
-
-            remove(ref(db, "QoraRoyxat/" + id)).then(() => {
-                showToast("Foydalanuvchi qora ro'yxatdan chiqarildi.");
-            }).catch((error) => {
-                showToast("Xatolik: " + error, true);
-            });
-        }
-
-        let blacklistListenerBoshlandi = false;
-
-        function loadBlacklist() {
-            if (blacklistListenerBoshlandi) return;
-            blacklistListenerBoshlandi = true;
-
-            onValue(ref(db, "QoraRoyxat"), (snapshot) => {
-                blacklistItems = snapshot.exists() ? Object.values(snapshot.val()) : [];
-                renderBlacklist();
-            }, (error) => {
-                showToast("Qora ro'yxatni yuklashda xatolik: " + error, true);
-            });
-        }
+        });
 
         function showToast(msg, isErr) {
             toast.textContent = msg;
@@ -644,10 +629,7 @@
         }
 
         function normalize(str) {
-            return (str || "")
-                .toLowerCase()
-                .replace(/ʻ|ʼ|'|`/g, "")
-                .replace(/[^a-zA-Zа-яА-Я0-9]/g, "");
+            return (str || "").toLowerCase().replace(/ʻ|ʼ|'|`/g, "").replace(/[^a-zA-Zа-яА-Я0-9]/g, "");
         }
 
         function tryLogin() {
@@ -658,6 +640,7 @@
                 adminScreen.style.display = 'block';
                 loadItems();
                 loadBlacklist();
+                loadChats();
             } else {
                 loginErr.classList.add('show');
             }
@@ -675,23 +658,20 @@
             adminPass.value = '';
         });
 
-        // Shu sessiyada avval kirgan bo'lsa, qaytadan parol so'ramaymiz
         if (sessionStorage.getItem('adminOk') === '1') {
             loginScreen.style.display = 'none';
             adminScreen.style.display = 'block';
             loadItems();
             loadBlacklist();
+            loadChats();
         }
 
+        // MAHSULOTLARNI CHIQARISH
         function renderTable() {
-            let filtered = currentFilter === "hammasi"
-                ? allItems
-                : allItems.filter(item => normalize(item.kategoriya).includes(normalize(currentFilter)));
-
+            let filtered = currentFilter === "hammasi" ? allItems : allItems.filter(item => normalize(item.kategoriya).includes(normalize(currentFilter)));
             if (currentSearch.trim() !== "") {
                 filtered = filtered.filter(item => normalize(item.name).includes(normalize(currentSearch)));
             }
-
             countPill.textContent = filtered.length + " ta e'lon";
 
             if (filtered.length === 0) {
@@ -719,48 +699,145 @@
             </div>
         `).join("");
 
-            document.querySelectorAll(".btn-del").forEach(btn => {
-                btn.addEventListener("click", () => {
-                    deleteItem(btn.getAttribute("data-id"));
-                });
+            document.querySelectorAll("#tableBody .btn-del").forEach(btn => {
+                btn.addEventListener("click", () => { deleteItem(btn.getAttribute("data-id")); });
             });
         }
 
         function deleteItem(id) {
-            if (!confirm("Ushbu e'lonni butunlay o'chirmoqchimisiz? Bu amalni ortga qaytarib bo'lmaydi.")) return;
+            if (!confirm("Ushbu e'lonni butunlay o'chirmoqchimisiz?")) return;
+            remove(ref(db, "Maxsulotlar/" + id)).then(() => { showToast("E'lon o'chirildi."); }).catch((error) => { showToast("Xatolik: " + error, true); });
+        }
 
-            remove(ref(db, "Maxsulotlar/" + id)).then(() => {
-                showToast("E'lon o'chirildi.");
-                // loadItems() shart emas - onValue o'zgarishni
-                // avtomatik tutib, jadvalni yangilaydi
-            }).catch((error) => {
-                showToast("Xatolik: " + error, true);
+        // QORA RO'YXATNI CHIQARISH
+        function renderBlacklist() {
+            blacklistCount.textContent = blacklistItems.length;
+            if (blacklistItems.length === 0) {
+                blacklistBody.innerHTML = "<h1>Qora ro'yxat bo'sh</h1>";
+                return;
+            }
+            blacklistBody.innerHTML = blacklistItems.map(item => `
+            <div class="row-card no-img">
+                <div class="row-info">
+                    <div class="row-top"><span class="row-name">ID: ${item.id}</span></div>
+                    <div class="row-meta">
+                        <span>${item.sana ? new Date(item.sana).toLocaleString('uz-UZ') : ''}</span>
+                        ${item.maydon ? `<span><b>Maydon:</b> ${item.maydon}</span>` : ""}
+                    </div>
+                    <div class="row-about"><b>Sabab:</b> ${item.sabab || "Noma'lum"}</div>
+                </div>
+                <div class="row-actions">
+                    <button class="btn-ok" data-id="${item.id}">✅ Ro'yxatdan chiqarish</button>
+                </div>
+            </div>
+        `).join("");
+
+            document.querySelectorAll("#blacklistBody .btn-ok").forEach(btn => {
+                btn.addEventListener("click", () => { unblockUser(btn.getAttribute("data-id")); });
             });
         }
 
+        function unblockUser(id) {
+            if (!confirm("Ushbu foydalanuvchini qora ro'yxatdan chiqarmoqchimisiz?")) return;
+            remove(ref(db, "QoraRoyxat/" + id)).then(() => { showToast("Foydalanuvchi qora ro'yxatdan chiqarildi."); }).catch((error) => { showToast("Xatolik: " + error, true); });
+        }
+
+        // CHAT / MUROJAATLARNI CHIQARISH
+        function renderChats() {
+            chatsCount.textContent = chatItems.length;
+            if (chatItems.length === 0) {
+                chatsBody.innerHTML = "<h1>Murojaatlar mavjud emas</h1>";
+                return;
+            }
+            chatsBody.innerHTML = chatItems.map(item => `
+            <div class="row-card no-img" style="border-left: 4px solid ${item.status === 'yangi' ? 'var(--error)' : 'var(--ok)'};">
+                <div class="row-info" style="width: 100%;">
+                    <div class="row-top">
+                        <span class="row-name" style="font-size:13px; color:var(--muted);">Foydalanuvchi: ${item.deviceId}</span>
+                        <span class="row-cat" style="background:${item.status === 'yangi' ? 'var(--error-tint)' : 'var(--ok-tint)'}; color:${item.status === 'yangi' ? 'var(--error)' : 'var(--ok)'};">${item.status === 'yangi' ? 'Yangi' : 'Javob berilgan'}</span>
+                    </div>
+                    <div style="font-size:15px; margin:8px 0; font-weight:600; color:var(--forest-deep);">" ${item.xabar} "</div>
+                    <div class="row-meta" style="margin-bottom:10px;"><span>📅 ${new Date(item.sana).toLocaleString('uz-UZ')}</span></div>
+                    
+                    <div style="background: var(--paper); padding:10px; border-radius:10px;">
+                        <label style="font-size:11px; font-weight:700; display:block; margin-bottom:4px;">Admin Javobi:</label>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="replyInp_${item.murojaatId}" value="${item.javob || ''}" placeholder="Javobingiz..." style="padding:8px; font-size:13px; border-radius:8px; border:1px solid var(--paper-line); background:#fff; flex:1; outline:none;">
+                            <button class="btn-ok send-reply-btn" data-id="${item.murojaatId}" style="padding:4px 12px; font-size:12px;">Saqlash</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-actions" style="flex-direction:column; gap:6px; justify-content:center;">
+                    <button class="btn-ok action-unblock" data-device="${item.deviceId}" data-murojaat="${item.murojaatId}" style="font-size:11px; padding:6px 10px;">🔓 Ochish & Yopish</button>
+                    <button class="btn-del action-delmsg" data-murojaat="${item.murojaatId}" style="font-size:11px; padding:6px 10px;">🗑 O'chirish</button>
+                </div>
+            </div>
+            `).join("");
+
+            document.querySelectorAll(".send-reply-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const mId = btn.getAttribute("data-id");
+                    const replyVal = document.getElementById(`replyInp_${mId}`).value.trim();
+                    if (!replyVal) return alert("Javob yozing!");
+                    set(ref(db, `Murojaatlar/${mId}/javob`), replyVal);
+                    set(ref(db, `Murojaatlar/${mId}/status`), "korildi");
+                    showToast("Javob muvaffaqiyatli saqlandi!");
+                });
+            });
+
+            document.querySelectorAll(".action-unblock").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const dId = btn.getAttribute("data-device");
+                    const mId = btn.getAttribute("data-murojaat");
+                    if (confirm("Foydalanuvchini blokdan chiqarib, arizani yopmoqchimisiz?")) {
+                        remove(ref(db, "QoraRoyxat/" + dId)).then(() => {
+                            remove(ref(db, "Murojaatlar/" + mId));
+                            showToast("Foydalanuvchi ochildi, ariza o'chirildi.");
+                        });
+                    }
+                });
+            });
+
+            document.querySelectorAll(".action-delmsg").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const mId = btn.getAttribute("data-murojaat");
+                    if (confirm("Ushbu arizani qora ro'yxatga ta'sir qilmasdan o'chirib yuborasizmi?")) {
+                        remove(ref(db, "Murojaatlar/" + mId));
+                        showToast("Murojaat o'chirildi.");
+                    }
+                });
+            });
+        }
+
+        // LISTENERS (REALTIME TINGLOVCHILAR)
         let listenerBoshlandi = false;
-
         function loadItems() {
-
-            // Listener faqat bir marta o'rnatiladi (login/qayta-kirishda
-            // qayta-qayta chaqirilsa ham, ikkinchi marta o'rnatilmaydi)
             if (listenerBoshlandi) return;
             listenerBoshlandi = true;
-
-            const maxsulotlarRef = ref(db, "Maxsulotlar");
-
-            // onValue - realtime tinglovchi. Boshqa qurilma/oynadan
-            // mahsulot qo'shilsa yoki o'chirilsa, jadval o'zi yangilanadi.
-            onValue(maxsulotlarRef, (snapshot) => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    allItems = Object.values(data);
-                } else {
-                    allItems = [];
-                }
+            onValue(ref(db, "Maxsulotlar"), (snapshot) => {
+                allItems = snapshot.exists() ? Object.values(snapshot.val()) : [];
                 renderTable();
-            }, (error) => {
-                showToast("Ma'lumot yuklashda xatolik: " + error, true);
+            });
+        }
+
+        let blacklistListenerBoshlandi = false;
+        function loadBlacklist() {
+            if (blacklistListenerBoshlandi) return;
+            blacklistListenerBoshlandi = true;
+            onValue(ref(db, "QoraRoyxat"), (snapshot) => {
+                blacklistItems = snapshot.exists() ? Object.values(snapshot.val()) : [];
+                renderBlacklist();
+            });
+        }
+
+        let chatsListenerBoshlandi = false;
+        function loadChats() {
+            if (chatsListenerBoshlandi) return;
+            chatsListenerBoshlandi = true;
+            onValue(ref(db, "Murojaatlar"), (snapshot) => {
+                chatItems = snapshot.exists() ? Object.values(snapshot.val()) : [];
+                chatsCount.textContent = chatItems.length;
+                renderChats();
             });
         }
 
@@ -779,5 +856,4 @@
         });
     </script>
 </body>
-
 </html>
