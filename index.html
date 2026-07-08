@@ -1,123 +1,383 @@
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yangiyer E'lonlari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    :root {
+        --forest-deep: #0f2e1e;
+        --forest: #1c4a30;
+        --leaf: #3f8b5e;
+        --mint-pale: #eaf4ec;
+        --paper: #f6f2e7;
+        --paper-line: #ded5bd;
+        --card: #fffdf8;
+        --gold: #d99a3d;
+        --ink: #182018;
+        --muted: #66756a;
+    }
 
-.ota{
-    width:100%;
-    height:200px;
-    background:rgb(35,151,35);
-    display:flex;
-    align-items:center;
-    padding:20px;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-.bola img{
-    width:180px;
-    height:150px;
-    border-radius:15px;
-}
+    body {
+        font-family: 'Inter', Arial, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        background-image:
+            radial-gradient(circle at 1px 1px, rgba(15, 46, 30, 0.06) 1px, transparent 0);
+        background-size: 22px 22px;
+    }
 
+    /* ===== Header ===== */
+    .ota {
+        width: 100%;
+        min-height: 210px;
+        height: auto;
+        background: linear-gradient(160deg, var(--forest-deep) 0%, var(--forest) 68%, var(--leaf) 130%);
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 24px;
+        padding: 28px 5%;
+        position: relative;
+        overflow: hidden;
+    }
 
-.h1{
-    text-align: center;
-    color:white;
-    font-size:45px;
-    position: relative;
-    left: 400px;
-}
+    .ota::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+        background-size: 16px 16px;
+        pointer-events: none;
+    }
 
-.divblock{
-    width:100%;
-    height: 550px;
-    background:rgb(100, 240, 100);
-    padding:20px;
-    display: flex;
-}
+    .bola {
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+    }
 
-.bollar{
-    text-align:center;
-    font-size:30px;
-    color: #fff;
-    font-weight:bold;
-}
+    .bola img {
+        width: 96px;
+        height: 96px;
+        object-fit: cover;
+        border-radius: 18px;
+        border: 3px solid rgba(255, 255, 255, 0.85);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+    }
 
-.kategoriya{
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 8px;
-    color: #028402ad;
-    background: rgb(69,244,69);
-    border-radius: 10px;
-    font-size: 17px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+    .SkFmCTsFksfYpyTuFSSe-qb6e2fyYjooGC8kfww2ygN3DHxH71mv9AREajDf-Iy_EQ {
+        font-family: 'Fraunces', serif;
+        font-weight: 700;
+        font-size: clamp(30px, 4vw, 44px);
+        color: #fff;
+        border-bottom: none;
+        position: static;
+        display: block;
+        letter-spacing: -0.01em;
+        z-index: 1;
+    }
 
-.kategoriya:hover{
-    background: rgb(45, 200, 45);
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
+    .SkFmCTsFksfYpyTuFSSe-qb6e2fyYjooGC8kfww2ygN3DHxH71mv9AREajDf-Iy_EQ::before {
+        content: "YANGIYER BOZORI";
+        display: block;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: .2em;
+        color: var(--gold);
+        margin-bottom: 6px;
+    }
 
-.banner{
-    width:90%;
-    margin:30px auto;
-    padding:40px;
-    background:#32cd32;
-    color:white;
-    text-align:center;
-    border-radius:15px;
-}
+    .elon {
+        position: static;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        width: auto;
+        height: 46px;
+        padding: 0 22px;
+        border-radius: 30px;
+        background: var(--gold);
+        color: var(--forest-deep);
+        font-weight: 700;
+        font-size: 15px;
+        transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+        z-index: 1;
+        box-shadow: 0 6px 16px rgba(217, 154, 61, 0.35);
+    }
 
-.bola2{
-    height: 100%;
-    width: 82%;
-    display: flex;
-    justify-content:end;
-    align-items:end;
-}
+    .elon:hover {
+        background: #f0b459;
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 10px 22px rgba(217, 154, 61, 0.45);
+    }
 
-.SkFmCTsFksfYpyTuFSSe-qb6e2fyYjooGC8kfww2ygN3DHxH71mv9AREajDf-Iy_EQ{
-    text-align: center;
-    font-size: 35px;
-    color: rgba(0, 0, 0, 0.897);
-    border-bottom: 3px solid rgb(0, 0, 0);
-    display: inline-block;
-    position: relative;
-    left: 600px;
-    top: -30px;
-}
-.elon{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    top: 50px;
-    left: 50px;
-    width: 135px;
-    height: 40px;
-    border-radius: 10px;
-    background-color: rgb(69,244,69);
-    transition: 0.3s;
-    color: #028402ad;
-}
-.elon:hover{
-    background: rgb(45, 200, 45);
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
+    .bola2 {
+        height: auto;
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-left: 0;
+        position: relative;
+        z-index: 1;
+        order: 3;
+    }
+
+    .kategoriya {
+        display: inline-block;
+        padding: 9px 18px;
+        margin: 0;
+        color: var(--forest-deep);
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: .25s ease;
+        border: 1px solid transparent;
+    }
+
+    .kategoriya:hover {
+        background: var(--gold);
+        color: var(--forest-deep);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    }
+
+    .kategoriya.active {
+        background: var(--gold);
+        color: var(--forest-deep);
+        border-color: rgba(255,255,255,0.6);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+    }
+
+    .banner {
+        width: 90%;
+        margin: 30px auto;
+        padding: 40px;
+        background: linear-gradient(120deg, var(--leaf), var(--forest));
+        color: white;
+        text-align: center;
+        border-radius: 18px;
+    }
+
+    /* ===== Body / grid ===== */
+    .divblock {
+        width: 100%;
+        min-height: 550px;
+        height: auto;
+        background: var(--paper);
+        padding: 44px 5% 80px;
+        display: flex;
+    }
+
+    .bollar {
+        text-align: center;
+        font-size: 30px;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    #products {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        gap: 26px;
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    #products h1 {
+        grid-column: 1 / -1;
+        text-align: center;
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        color: var(--muted);
+        padding: 70px 20px;
+        background: var(--card);
+        border: 1px dashed var(--paper-line);
+        border-radius: 18px;
+    }
+
+    /* ===== Card (rendered by JS — classnames untouched) ===== */
+    .card {
+        background: var(--card);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--paper-line);
+        box-shadow: 0 2px 6px rgba(15, 46, 30, 0.06);
+        transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .card::before {
+        content: "";
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--gold);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+        z-index: 2;
+    }
+
+    .card:hover {
+        transform: translateY(-6px) rotate(-0.4deg);
+        box-shadow: 0 20px 34px rgba(15, 46, 30, 0.16);
+        border-color: var(--leaf);
+    }
+
+    .img-wrap {
+        position: relative;
+        width: 100%;
+        height: 210px;
+        background: var(--mint-pale);
+        overflow: hidden;
+    }
+
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .5s ease;
+    }
+
+    .card:hover img {
+        transform: scale(1.06);
+    }
+
+    .info {
+        padding: 18px 20px 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .category {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+        background: var(--mint-pale);
+        color: var(--leaf);
+        padding: 5px 13px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .category::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--leaf);
+        display: inline-block;
+    }
+
+    .name {
+        font-family: 'Fraunces', serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--forest-deep);
+        margin-bottom: 6px;
+        line-height: 1.25;
+    }
+
+    .price {
+        color: var(--forest);
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        font-family: 'Fraunces', serif;
+    }
+
+    .price::after {
+        content: " so'm";
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--muted);
+        font-family: 'Inter', sans-serif;
+    }
+
+    .about {
+        color: var(--muted);
+        font-size: 13.5px;
+        line-height: 1.55;
+        height: 63px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-top: auto;
+        border: 1px solid var(--forest);
+        background: transparent;
+        color: var(--forest);
+        padding: 0;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background .25s ease, color .25s ease;
+        overflow: hidden;
+    }
+
+    .btn:hover {
+        background: var(--forest);
+    }
+
+    .btn:hover .a {
+        color: #fff;
+    }
+
+    .a {
+        display: block;
+        text-decoration: none;
+        color: var(--forest);
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        transition: color .25s ease;
+    }
+
+    @media (max-width: 640px) {
+        .ota {
+            padding: 24px 20px;
+        }
+
+        .divblock {
+            padding: 32px 20px 60px;
+        }
+    }
 </style>
 </head>
 
@@ -131,16 +391,136 @@
     <h1 class="SkFmCTsFksfYpyTuFSSe-qb6e2fyYjooGC8kfww2ygN3DHxH71mv9AREajDf-Iy_EQ">E'lonlar</h1>
     <a class="elon" href="qabul.html">➕ E'lon qoshish</a>
     <div class="bola2">
-        <div class="kategoriya">🚗 Avtomobillar</div>
-        <div class="kategoriya">🏡 Uy-joy</div>
-        <div class="kategoriya">📱 Telefon</div>
-        <div class="kategoriya">👨‍⚕️ Ish</div>
-        <div class="kategoriya">👷 Xizmatlar</div>
-        <div class="kategoriya">🎓 Ta'lim</div>
-        <div class="kategoriya">👕 Kiyim-kechak</div>
-</div>
+        <div class="kategoriya active" data-filter="hammasi">🗂️ Hammasi</div>
+        <div class="kategoriya" data-filter="avtomobillar">🚗 Avtomobillar</div>
+        <div class="kategoriya" data-filter="uy-joy">🏡 Uy-joy</div>
+        <div class="kategoriya" data-filter="telefon">📱 Telefon</div>
+        <div class="kategoriya" data-filter="ish">👨‍⚕️ Ish</div>
+        <div class="kategoriya" data-filter="xizmatlar">👷 Xizmatlar</div>
+        <div class="kategoriya" data-filter="talim">🎓 Ta'lim</div>
+        <div class="kategoriya" data-filter="kiyim-kechak">👕 Kiyim-kechak</div>
+    </div>
 </div>
 
-<div class="divblock"></div>
+<div class="divblock">
+    <div id="products"></div>
+</div>
+
+<script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAVpu359-UXW_iEGPMZxeMmYQUYCW0hCWg",
+            authDomain: "yangiyer-elon.firebaseapp.com",
+            projectId: "yangiyer-elon",
+            storageBucket: "yangiyer-elon.firebasestorage.app",
+            messagingSenderId: "578781932389",
+            appId: "1:578781932389:web:3f982cbf869cc066768f8c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const products = document.getElementById("products");
+
+        let allItems = [];
+        let currentFilter = "hammasi";
+
+        function normalize(str) {
+            return (str || "")
+                .toLowerCase()
+                .replace(/ʻ|ʼ|'|`/g, "")
+                .replace(/[^a-zA-Zа-яА-Я0-9]/g, "");
+        }
+
+        function renderProducts() {
+
+            products.innerHTML = "";
+
+            const filtered = currentFilter === "hammasi"
+                ? allItems
+                : allItems.filter(item => normalize(item.kategoriya).includes(normalize(currentFilter)));
+
+            if (filtered.length > 0) {
+
+                filtered.forEach(item => {
+
+                    products.innerHTML += `
+<div class="card">
+
+    <div class="img-wrap">
+        <img src="${item.img}" alt="">
+    </div>
+
+    <div class="info">
+
+        <div class="category">${item.kategoriya}</div>
+
+        <div class="name">${item.name}</div>
+
+        <div class="price">${item.price}</div>
+
+        <div class="about">${item.about}</div>
+
+        <button class="btn"><a class="a" href="about.html">Biz haqimizda</a></button>
+
+    </div>
+
+</div>
+`;
+
+                });
+
+            } else {
+
+                products.innerHTML = "<h1>Mahsulot yo'q</h1>";
+
+            }
+
+        }
+
+        function loadProducts() {
+
+            get(ref(db, "Maxsulotlar")).then((snapshot) => {
+
+                if (snapshot.exists()) {
+
+                    const data = snapshot.val();
+                    allItems = Object.values(data);
+
+                } else {
+
+                    allItems = [];
+
+                }
+
+                renderProducts();
+
+            }).catch((error) => {
+
+                console.log(error);
+
+            });
+
+        }
+
+        document.querySelectorAll(".kategoriya").forEach(chip => {
+
+            chip.addEventListener("click", () => {
+
+                document.querySelectorAll(".kategoriya").forEach(c => c.classList.remove("active"));
+                chip.classList.add("active");
+
+                currentFilter = chip.dataset.filter || "hammasi";
+                renderProducts();
+
+            });
+
+        });
+
+        loadProducts();
+    </script>
 </body>
 </html>
