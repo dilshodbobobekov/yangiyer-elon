@@ -307,6 +307,28 @@
             background: var(--mint-pale);
         }
 
+        .row-card.no-img {
+            grid-template-columns: 1fr auto;
+        }
+
+        .btn-ok {
+            border: 1px solid var(--leaf);
+            background: var(--mint-pale);
+            color: var(--forest);
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .btn-ok:hover {
+            background: var(--leaf);
+            color: #fff;
+        }
+
         .row-info {
             min-width: 0;
         }
@@ -458,10 +480,12 @@
             </div>
             <div class="topbar-actions">
                 <span class="stat-pill" id="countPill">0 ta e'lon</span>
+                <button class="logout-btn" id="blacklistToggleBtn">🚫 Qora ro'yxat (<span id="blacklistCount">0</span>)</button>
                 <button class="logout-btn" id="logoutBtn">Chiqish</button>
             </div>
         </div>
 
+        <div id="productsView">
         <div class="toolbar" id="toolbar">
             <div class="chip active" data-filter="hammasi">🗂️ Hammasi</div>
             <div class="chip" data-filter="avtomobillar">🚗 Avtomobillar</div>
@@ -478,6 +502,20 @@
 
         <div class="table-wrap">
             <div id="tableBody"></div>
+        </div>
+        </div>
+
+        <!-- ===== QORA RO'YXAT (faqat admin ko'radi) ===== -->
+        <div id="blacklistView" style="display:none;">
+            <div class="toolbar">
+                <p style="font-size:13.5px;color:var(--muted);padding:6px 4px;">
+                    Bu yerda so'kinish so'zi ishlatgani uchun avtomatik bloklangan foydalanuvchilar ro'yxati.
+                    Bloklashni bekor qilish uchun "Ro'yxatdan chiqarish" tugmasini bosing — u holda foydalanuvchi qayta e'lon qo'sha oladi.
+                </p>
+            </div>
+            <div class="table-wrap">
+                <div id="blacklistBody"></div>
+            </div>
         </div>
     </div>
 
@@ -520,6 +558,85 @@
         let currentFilter = "hammasi";
         let currentSearch = "";
 
+        // ===== QORA RO'YXAT (faqat admin ko'radi) =====
+        let blacklistItems = [];
+        const productsView = document.getElementById('productsView');
+        const blacklistView = document.getElementById('blacklistView');
+        const blacklistToggleBtn = document.getElementById('blacklistToggleBtn');
+        const blacklistBody = document.getElementById('blacklistBody');
+        const blacklistCount = document.getElementById('blacklistCount');
+        let blacklistKorinyapti = false;
+
+        blacklistToggleBtn.addEventListener('click', () => {
+            blacklistKorinyapti = !blacklistKorinyapti;
+            if (blacklistKorinyapti) {
+                productsView.style.display = 'none';
+                blacklistView.style.display = 'block';
+                blacklistToggleBtn.textContent = '🗂️ Mahsulotlarga qaytish';
+            } else {
+                productsView.style.display = 'block';
+                blacklistView.style.display = 'none';
+                blacklistToggleBtn.innerHTML = "🚫 Qora ro'yxat (<span id=\"blacklistCount\">" + blacklistItems.length + "</span>)";
+            }
+        });
+
+        function renderBlacklist() {
+            blacklistCount.textContent = blacklistItems.length;
+
+            if (blacklistItems.length === 0) {
+                blacklistBody.innerHTML = "<h1>Qora ro'yxat bo'sh</h1>";
+                return;
+            }
+
+            blacklistBody.innerHTML = blacklistItems.map(item => `
+            <div class="row-card no-img">
+                <div class="row-info">
+                    <div class="row-top">
+                        <span class="row-name">ID: ${item.id}</span>
+                    </div>
+                    <div class="row-meta">
+                        <span>${item.sana ? new Date(item.sana).toLocaleString('uz-UZ') : ''}</span>
+                        ${item.maydon ? `<span><b>Maydon:</b> ${item.maydon}</span>` : ""}
+                    </div>
+                    <div class="row-about"><b>Sabab:</b> ${item.sabab || "Noma'lum"}</div>
+                </div>
+                <div class="row-actions">
+                    <button class="btn-ok" data-id="${item.id}">✅ Ro'yxatdan chiqarish</button>
+                </div>
+            </div>
+        `).join("");
+
+            document.querySelectorAll("#blacklistBody .btn-ok").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    unblockUser(btn.getAttribute("data-id"));
+                });
+            });
+        }
+
+        function unblockUser(id) {
+            if (!confirm("Ushbu foydalanuvchini qora ro'yxatdan chiqarmoqchimisiz? U qayta e'lon qo'sha oladi.")) return;
+
+            remove(ref(db, "QoraRoyxat/" + id)).then(() => {
+                showToast("Foydalanuvchi qora ro'yxatdan chiqarildi.");
+            }).catch((error) => {
+                showToast("Xatolik: " + error, true);
+            });
+        }
+
+        let blacklistListenerBoshlandi = false;
+
+        function loadBlacklist() {
+            if (blacklistListenerBoshlandi) return;
+            blacklistListenerBoshlandi = true;
+
+            onValue(ref(db, "QoraRoyxat"), (snapshot) => {
+                blacklistItems = snapshot.exists() ? Object.values(snapshot.val()) : [];
+                renderBlacklist();
+            }, (error) => {
+                showToast("Qora ro'yxatni yuklashda xatolik: " + error, true);
+            });
+        }
+
         function showToast(msg, isErr) {
             toast.textContent = msg;
             toast.className = 'toast show' + (isErr ? ' err' : '');
@@ -540,6 +657,7 @@
                 loginScreen.style.display = 'none';
                 adminScreen.style.display = 'block';
                 loadItems();
+                loadBlacklist();
             } else {
                 loginErr.classList.add('show');
             }
@@ -562,6 +680,7 @@
             loginScreen.style.display = 'none';
             adminScreen.style.display = 'block';
             loadItems();
+            loadBlacklist();
         }
 
         function renderTable() {
