@@ -435,6 +435,73 @@
             padding: 32px 20px 60px;
         }
     }
+    .contact-box {
+  width: 320px;
+  padding: 25px;
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  border-radius: 20px;
+  color: white;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.contact-box h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.contact-box p {
+  background: rgba(255,255,255,0.15);
+  padding: 12px;
+  border-radius: 12px;
+  margin: 12px 0;
+  transition: 0.3s;
+}
+
+.contact-box p:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-3px);
+}
+
+.contact-box a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.contact-box span {
+  margin-right: 8px;
+}
+.about {
+    color: var(--muted);
+    font-size: 13.5px;
+    line-height: 1.55;
+    max-height: 90px; /* ko'rinadigan balandlik */
+    overflow-y: auto; /* vertikal scroll */
+    margin-bottom: 10px;
+    padding-right: 8px;
+}
+
+/* Scroll dizayni */
+.about::-webkit-scrollbar {
+    width: 6px;
+}
+
+.about::-webkit-scrollbar-track {
+    background: #eaf4ec;
+    border-radius: 10px;
+}
+
+.about::-webkit-scrollbar-thumb {
+    background: var(--leaf);
+    border-radius: 10px;
+}
+
+.about::-webkit-scrollbar-thumb:hover {
+    background: var(--forest);
+}
 </style>
 </head>
 
@@ -462,7 +529,10 @@
 <div class="divblock">
     <div id="products"></div>
 </div>
-
+<br><br><br>
+<h2>Telefon: </h2>
+<p>☎️+998 99 019 07 88</p>
+<p>☎️+998 99 123 45 67</p>
 <script type="module">
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
