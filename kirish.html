@@ -167,9 +167,76 @@
           transition: none !important;
         }
       }
+
+      /* ===== Bosh sahifaga qaytish tugmasi (stiker) ===== */
+      #homeBtn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 999;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #10151f;
+        background: linear-gradient(145deg, #f2b355, #e8a33d);
+        box-shadow:
+          0 10px 22px -8px rgba(232, 163, 61, 0.45),
+          0 0 0 4px #1a2233,
+          0 0 0 5px #2a3549;
+        animation: home-float 3.2s ease-in-out infinite;
+        transition:
+          transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.3s ease;
+      }
+
+      #homeBtn svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      #homeBtn:hover {
+        transform: translateY(-3px) rotate(-8deg) scale(1.08);
+        box-shadow:
+          0 14px 28px -8px rgba(232, 163, 61, 0.55),
+          0 0 0 4px #1a2233,
+          0 0 0 5px #f2b355;
+      }
+
+      #homeBtn:active {
+        transform: scale(0.92);
+      }
+
+      @keyframes home-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+
+      @media (max-width: 480px) {
+        #homeBtn {
+          top: 14px;
+          left: 14px;
+          width: 44px;
+          height: 44px;
+        }
+      }
     </style>
   </head>
   <body>
+    <a id="homeBtn" href="index.html" title="Bosh sahifaga qaytish" aria-label="Bosh sahifaga qaytish">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 10.5L12 4L20 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 9.3V19a1 1 0 0 0 1 1h3.2v-5.6h3.6V20H17a1 1 0 0 0 1-1V9.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
     <div id="container">
       <input type="text" id="login" placeholder="Login" />
       <input type="text" id="parol" placeholder="Parol" />
