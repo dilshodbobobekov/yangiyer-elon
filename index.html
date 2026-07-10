@@ -745,7 +745,8 @@
 
                 filtered.forEach((item, idx) => {
 
-                    const ozimniki = mening.includes(item.id);
+                    // == turi ishlatiladi (===  emas), shunda id raqam yoki satr bo'lishidan qat'i nazar mos keladi
+                    const ozimniki = mening.some(x => x == item.id);
 
                     const telefonHtml = item.phone
                         ? `<a class="phone-line" href="tel:${item.phone}" onclick="event.stopPropagation()">📞 ${item.phone}</a>`
@@ -777,7 +778,7 @@
         ${telefonHtml}
 
         <div class="btn-row">
-            
+            ${ochirishHtml}
         </div>
 
     </div>
