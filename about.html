@@ -557,36 +557,42 @@
         #homeBtn {
 
             position: fixed;
-            top: 22px;
-            left: 22px;
+            top: 20px;
+            left: 20px;
             z-index: 999;
-            width: 46px;
-            height: 46px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: #ffffff;
-            border: 1.5px solid #e0e6f0;
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
             text-decoration: none;
-            box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .28);
-            transition: .3s;
+            background: linear-gradient(145deg, #00a2ff, #0048ff);
+            box-shadow: 0 10px 22px -8px rgba(0, 72, 255, .5), 0 0 0 4px #fff, 0 0 0 5px #e0e6f0;
+            animation: home-float 3.2s ease-in-out infinite;
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s ease;
 
         }
 
+        #homeBtn svg { width: 22px; height: 22px; }
+
         #homeBtn:hover {
 
-            border-color: #0066ff;
-            background: #eaf1ff;
-            transform: translateY(-2px);
+            transform: translateY(-3px) rotate(-8deg) scale(1.08);
+            box-shadow: 0 14px 28px -8px rgba(0, 72, 255, .55), 0 0 0 4px #fff, 0 0 0 5px #FFD400;
 
         }
 
         #homeBtn:active {
 
-            transform: scale(0.95);
+            transform: scale(0.92);
 
+        }
+
+        @keyframes home-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
         }
 
         @media(max-width:480px) {
@@ -595,13 +601,33 @@
 
                 top: 14px;
                 left: 14px;
-                width: 42px;
-                height: 42px;
-                font-size: 18px;
+                width: 44px;
+                height: 44px;
 
             }
 
         }
+
+        /* ===== Sahifalar o'rtasidagi o'tish animatsiyasi ===== */
+        .page-transition {
+            position: fixed; inset: 0; z-index: 100000;
+            background: linear-gradient(135deg, #0048ff, #00a2ff);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transition: opacity .4s ease;
+        }
+        .page-transition.active { opacity: 1; visibility: visible; pointer-events: all; }
+        .pt-mark { position: relative; width: 64px; height: 64px; }
+        .pt-mark::before {
+            content: ""; position: absolute; inset: 0; border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, .28); border-top-color: #FFD400;
+            animation: loader-spin .8s linear infinite;
+        }
+        .pt-mark::after {
+            content: "💻"; position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 24px;
+        }
+        @keyframes loader-spin { to { transform: rotate(360deg); } }
 
         /* ===== Scroll Animation ===== */
 
@@ -689,7 +715,12 @@
 
 <body>
 
-    <a id="homeBtn" href="index.html" title="Bosh sahifaga qaytish">🏠</a>
+    <a id="homeBtn" href="index.html" title="Bosh sahifaga qaytish" aria-label="Bosh sahifaga qaytish">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 10.5L12 4L20 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M6 9.3V19a1 1 0 0 0 1 1h3.2v-5.6h3.6V20H17a1 1 0 0 0 1-1V9.3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </a>
 
     <section class="hero">
 
@@ -1119,6 +1150,35 @@
 
     </script>
 
+    <!-- Sahifalar orasidagi silliq o'tish animatsiyasi -->
+    <div class="page-transition" id="pageTransition">
+        <div class="pt-mark"></div>
+    </div>
+    <script>
+        (function () {
+            const overlay = document.getElementById('pageTransition');
+
+            requestAnimationFrame(() => {
+                overlay.classList.add('active');
+                requestAnimationFrame(() => {
+                    setTimeout(() => overlay.classList.remove('active'), 30);
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                const a = e.target.closest('a[href]');
+                if (!a) return;
+                const href = a.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('http') ||
+                    href.startsWith('tel:') || href.startsWith('mailto:') ||
+                    a.target === '_blank') return;
+
+                e.preventDefault();
+                overlay.classList.add('active');
+                setTimeout(() => { window.location.href = href; }, 360);
+            });
+        })();
+    </script>
 
 </body>
 
