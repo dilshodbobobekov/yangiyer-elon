@@ -97,6 +97,24 @@
         transform: translateY(1px);
       }
 
+      #wrapper #otish {
+        padding: 10px 14px;
+        border: 1px solid #2a3549;
+        border-radius: 8px;
+        background: transparent;
+        color: #8a93a6;
+        font-size: 13px;
+        cursor: pointer;
+        transition:
+          color 0.15s ease,
+          border-color 0.15s ease;
+      }
+
+      #wrapper #otish:hover {
+        color: #edeff4;
+        border-color: #e8a33d;
+      }
+
       #wrapper input:focus-visible,
       #wrapper button:focus-visible {
         outline: 2px solid #e8a33d;
@@ -125,6 +143,7 @@
       <input type="text" id="newlog" placeholder="Login" />
       <input type="password" id="newpas" placeholder="Parol" />
       <button id="saqlash">Saqlash</button>
+      <button id="otish">O'tish</button>
     </div>
 
     <script type="module">
@@ -158,6 +177,8 @@
       let newlog = document.getElementById("newlog");
       let newpas = document.getElementById("newpas");
       let save = document.getElementById("saqlash");
+      let otish = document.getElementById("otish");
+      let isSaved = false;
 
       save.addEventListener("click", () => {
         if (
@@ -187,6 +208,7 @@
           })
             .then(() => {
               alert("Ma'lumotlar saqlandi");
+              isSaved = true;
               window.location.href = "kirish.html";
             })
             .catch((error) => {
@@ -195,6 +217,25 @@
         }
 
         insertData();
+      });
+
+      otish.addEventListener("click", () => {
+        if (
+          namee.value.trim() === "" ||
+          surname.value.trim() === "" ||
+          date.value.trim() === "" ||
+          newlog.value.trim() === "" ||
+          newpas.value.trim() === ""
+        ) {
+          alert("Bo'sh maydonlarni to'ldiring va saqlash tugmasini bosing!");
+          return;
+        }
+        if (!isSaved) {
+          alert("Iltimos, avval ma'lumotlarni saqlang!");
+          return;
+        }
+
+        window.location.href = "kirish.html";
       });
     </script>
   </body>

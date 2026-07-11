@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yangiyer E'lonlari</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --forest-deep: #0f2e1e;
+            --forest: #1c4a30;
+            --leaf: #3f8b5e;
+            --mint-pale: #eaf4ec;
+            --paper: #f6f2e7;
+            --paper-line: #ded5bd;
+            --card: #fffdf8;
+            --gold: #d99a3d;
+            --ink: #182018;
+            --muted: #66756a;
+            --error: #af4438;
+            --error-tint: #fbeae7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(15, 46, 30, 0.06) 1px, transparent 0);
+            background-size: 22px 22px;
+        }
+
+        /* ===== Header ===== */
+        .ota {
+            width: 100%;
+            min-height: 210px;
+            height: auto;
+            background: linear-gradient(160deg, var(--forest-deep) 0%, var(--forest) 68%, var(--leaf) 130%);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding: 28px 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ota::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+            background-size: 16px 16px;
+            pointer-events: none;
+        }
+
+        .bola {
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bola img {
+            width: 96px;
+            height: 96px;
+            object-fit: cover;
+            border-radius: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+        }
+
+        .SkFmCTsFksfYpyTuFSSe-qb6e2fyYjooGC8kfww2ygN3DHxH71mv9AREajDf-Iy_EQ {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: clamp(30px, 4vw, 44px);
+            color: #fff;
+            border-bottom: none;
+            position: static;
+            display: block;
+            letter-spacing: -0.01em;
+            z-index: 1;
+        }
+
+        .SkFmCTsFksfYpyTuFSSe-qb6e2fyYjooGC8kfww2ygN3DHxH71mv9AREajDf-Iy_EQ::before {
+            content: "YANGIYER BOZORI";
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: .2em;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .elon {
+            position: static;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            width: auto;
+            height: 46px;
+            padding: 0 22px;
+            border-radius: 30px;
+            background: var(--gold);
+            color: var(--forest-deep);
+            font-weight: 700;
+            font-size: 15px;
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+            z-index: 1;
+            box-shadow: 0 6px 16px rgba(217, 154, 61, 0.35);
+        }
+
+        .elon:hover {
+            background: #f0b459;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 10px 22px rgba(217, 154, 61, 0.45);
+        }
+
+        .bola2 {
+            height: auto;
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-left: 0;
+            position: relative;
+            z-index: 1;
+            order: 3;
+        }
+
+        .kategoriya {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            margin: 0;
+            color: var(--forest-deep);
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .25s ease;
+            border: 1px solid transparent;
+        }
+
+        .kategoriya svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .kategoriya:hover {
+            background: var(--gold);
+            color: var(--forest-deep);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+        }
+
+        .kategoriya.active {
+            background: var(--gold);
+            color: var(--forest-deep);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+        }
+
+        .banner {
+            width: 90%;
+            margin: 30px auto;
+            padding: 40px;
+            background: linear-gradient(120deg, var(--leaf), var(--forest));
+            color: white;
+            text-align: center;
+            border-radius: 18px;
+        }
+
+        /* ===== Body / grid ===== */
+        .divblock {
+            width: 100%;
+            min-height: 550px;
+            height: auto;
+            background: var(--paper);
+            padding: 44px 5% 80px;
+            display: flex;
+        }
+
+        .bollar {
+            text-align: center;
+            font-size: 30px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        #products {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 26px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        #products h1 {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            color: var(--muted);
+            padding: 70px 20px;
+            background: var(--card);
+            border: 1px dashed var(--paper-line);
+            border-radius: 18px;
+        }
+
+        /* ===== Mahsulotlar yuklanish animatsiyasi ===== */
+        .products-loading {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 90px 20px;
+        }
+
+        .loader-orbit {
+            position: relative;
+            width: 64px;
+            height: 64px;
+        }
+
+        .loader-orbit .ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 4px solid var(--mint-pale);
+            border-top-color: var(--gold);
+            border-right-color: var(--leaf);
+            animation: loader-spin 0.9s linear infinite;
+        }
+
+        .loader-orbit .core {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            animation: loader-pulse 1.6s ease-in-out infinite;
+        }
+
+        @keyframes loader-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes loader-pulse {
+            0%, 100% { transform: scale(0.9); opacity: .75; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+
+        .products-loading p {
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: .01em;
+        }
+
+        .products-loading .dots span {
+            display: inline-block;
+            animation: dot-bounce 1.2s infinite ease-in-out;
+        }
+
+        .products-loading .dots span:nth-child(2) { animation-delay: .15s; }
+        .products-loading .dots span:nth-child(3) { animation-delay: .3s; }
+
+        @keyframes dot-bounce {
+            0%, 80%, 100% { transform: translateY(0); opacity: .35; }
+            40% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        /* ===== Kartalarning paydo bo'lish animatsiyasi ===== */
+        @keyframes card-in {
+            from { opacity: 0; transform: translateY(20px) scale(.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ===== Sahifalar o'rtasidagi o'tish animatsiyasi ===== */
+        .page-transition {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            background: linear-gradient(160deg, var(--forest-deep) 0%, var(--forest) 68%, var(--leaf) 130%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity .4s ease;
+        }
+
+        .page-transition.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+        .pt-mark {
+            position: relative;
+            width: 64px;
+            height: 64px;
+        }
+
+        .pt-mark::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, .22);
+            border-top-color: var(--gold);
+            animation: loader-spin .8s linear infinite;
+        }
+
+        .pt-mark::after {
+            content: "🛍️";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        /* ===== Card (rendered by JS) ===== */
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--paper-line);
+            box-shadow: 0 2px 6px rgba(15, 46, 30, 0.06);
+            transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease, border-color .35s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+            z-index: 2;
+        }
+
+        .card:hover {
+            transform: translateY(-6px) rotate(-0.4deg);
+            box-shadow: 0 20px 34px rgba(15, 46, 30, 0.16);
+            border-color: var(--leaf);
+        }
+
+        .card {
+            animation: card-in .55s cubic-bezier(.2, .8, .2, 1) both;
+            animation-delay: calc(var(--i, 0) * 60ms);
+        }
+
+        .img-wrap {
+            position: relative;
+            width: 100%;
+            height: 210px;
+            background: var(--mint-pale);
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .5s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.06);
+        }
+
+        .own-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 2;
+            background: var(--forest-deep);
+            color: #fff;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 30px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.28);
+        }
+
+        .info {
+            padding: 18px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .category {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            width: fit-content;
+            background: var(--mint-pale);
+            color: var(--leaf);
+            padding: 5px 13px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .category::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--leaf);
+            display: inline-block;
+        }
+
+        .name {
+            font-family: 'Fraunces', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--forest-deep);
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+
+        .price {
+            color: var(--forest);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-family: 'Fraunces', serif;
+        }
+
+        .price::after {
+            content: " so'm";
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .about {
+            color: var(--muted);
+            font-size: 13.5px;
+            line-height: 1.55;
+            height: 63px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .phone-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--forest-deep);
+            margin-bottom: 14px;
+            text-decoration: none;
+        }
+
+        .phone-line:hover {
+            color: var(--leaf);
+        }
+
+        .btn-row {
+            margin-top: auto;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            flex: 1;
+            border: 1px solid var(--forest);
+            background: transparent;
+            color: var(--forest);
+            padding: 0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .25s ease, color .25s ease;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: var(--forest);
+        }
+
+        .btn:hover .a {
+            color: #fff;
+        }
+
+        .a {
+            display: block;
+            text-decoration: none;
+            color: var(--forest);
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: color .25s ease;
+            text-align: center;
+        }
+
+        .btn-delete {
+            flex: 0 0 auto;
+            border: 1px solid var(--error);
+            background: var(--error-tint);
+            color: var(--error);
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease;
+        }
+
+        .btn-delete:hover {
+            background: var(--error);
+            color: #fff;
+        }
+
+        @media (max-width: 640px) {
+            .ota {
+                padding: 24px 20px;
+            }
+
+            .divblock {
+                padding: 32px 20px 60px;
+            }
+        }
+
+        .contact-box {
+            width: 320px;
+            padding: 25px;
+            background: linear-gradient(135deg, #007bff, #00c6ff);
+            border-radius: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .contact-box h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .contact-box p {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 12px;
+            margin: 12px 0;
+            transition: 0.3s;
+        }
+
+        .contact-box p:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .contact-box a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .contact-box span {
+            margin-right: 8px;
+        }
+
+        .about {
+            color: var(--muted);
+            font-size: 13.5px;
+            line-height: 1.55;
+            max-height: 90px;
+            /* ko'rinadigan balandlik */
+            overflow-y: auto;
+            /* vertikal scroll */
+            margin-bottom: 10px;
+            padding-right: 8px;
+        }
+
+        /* Scroll dizayni */
+        .about::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .about::-webkit-scrollbar-track {
+            background: #eaf4ec;
+            border-radius: 10px;
+        }
+
+        .about::-webkit-scrollbar-thumb {
+            background: var(--leaf);
+            border-radius: 10px;
+        }
+
+        .about::-webkit-scrollbar-thumb:hover {
+            background: var(--forest);
+        }
+    </style>
+</head>
+
+<body>
+    <a href="about.html" target="_blank" title="Bobobekov School — Dasturlashni 0 dan o'rganing!"
+        style="position: fixed; top:14px; right:14px; z-index:999; display:flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.95); border-radius:999px; padding:6px 14px 6px 6px; box-shadow:0 4px 16px rgba(0,0,0,0.18);
+    text-decoration:none; color:#0048ff; font-family:sans-serif; font-size:13px; font-weight:600;">
+        <img src="ChatGPT Image 8 июл. 2026 г., 13_29_52.png" alt="Bobobekov School"
+            style="width:30px; height:30px; border-radius:50%; object-fit:cover;">
+        <span>Bobobekov School</span>
+    </a>
+    <a href="about2.html" target="_blank" title="Bobobekov School — Dasturlashni 0 dan o'rganing!"
+        style="position: fixed; top:64px; right:14px; z-index:999; display:flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.95); border-radius:999px; padding:6px 14px 6px 6px; box-shadow:0 4px 16px rgba(0,0,0,0.18);
+    text-decoration:none; color:#0048ff; font-family:sans-serif; font-size:13px; font-weight:600;">
+        <img src="ChatGPT Image 10 июл. 2026 г., 08_10_30.png" alt="Yangiyer E'lonlari"*
+            style="width:30px; height:30px; border-radius:50%; object-fit:cover;">
+        <span>Sayt Haqida</span>
+    </a>
+
+    <div class="ota">
+
+        <div class="bola">
+            <img
+                src="https://play-lh.googleusercontent.com/SkFmCTsFksfYpyTuFSSe-qb6e2fyYjooGC8kfww2ygN3DHxH71mv9AREajDf-Iy_EQ=w240-h480-rw">
+        </div>
+        <h1 class="SkFmCTsFksfYpyTuFSSe-qb6e2fyYjooGC8kfww2ygN3DHxH71mv9AREajDf-Iy_EQ">E'lonlar</h1>
+        <a class="elon" href="kirish.html">➕ E'lon qoshish</a>
+        <div class="bola2">
+            <div class="kategoriya active" data-filter="hammasi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg> Hammasi</div>
+            <div class="kategoriya" data-filter="avtomobillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4A2 2 0 0 1 8.4 5.5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="2"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg> Avtomobillar</div>
+            <div class="kategoriya" data-filter="uy-joy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5"/><path d="M6 9.3V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V9.3"/><path d="M10 20v-5h4v5"/></svg> Uy-joy</div>
+            <div class="kategoriya" data-filter="elektronika"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M2 19h20"/><path d="M9 19l1-2h4l1 2"/></svg> Elektronika</div>
+            <div class="kategoriya" data-filter="maishiy-texnika"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="5"/><circle cx="7.5" cy="6" r="0.6" fill="currentColor" stroke="none"/><circle cx="10.5" cy="6" r="0.6" fill="currentColor" stroke="none"/></svg> Maishiy texnika</div>
+            <div class="kategoriya" data-filter="ish"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/></svg> Ish</div>
+            <div class="kategoriya" data-filter="xizmatlar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6z"/></svg> Xizmatlar</div>
+            <div class="kategoriya" data-filter="talim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l10-4 10 4-10 4-10-4z"/><path d="M6 10.5v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4"/><path d="M22 8v6"/></svg> Ta'lim</div>
+            <div class="kategoriya" data-filter="kiyim-kechak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4L4 7l2 3 2-1v11h8V9l2 1 2-3-4-3-2 2h-4z"/></svg> Kiyim-kechak</div>
+            <div class="kategoriya" data-filter="oziq-ovqat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a2 2 0 0 0 4 0V3"/><path d="M8 9v12"/><path d="M17 3c-2 0-3 2-3 5s1 4 3 4"/><path d="M17 3v16"/></svg> Oziq-ovqat</div>
+        </div>
+    </div>
+
+    <div class="divblock">
+        <div id="products">
+            <div class="products-loading">
+                <div class="loader-orbit">
+                    <div class="ring"></div>
+                    <div class="core">🛍️</div>
+                </div>
+                <p>E'lonlar yuklanmoqda<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAVpu359-UXW_iEGPMZxeMmYQUYCW0hCWg",
+            authDomain: "yangiyer-elon.firebaseapp.com",
+            projectId: "yangiyer-elon",
+            storageBucket: "yangiyer-elon.firebasestorage.app",
+            messagingSenderId: "578781932389",
+            appId: "1:578781932389:web:3f982cbf869cc066768f8c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const products = document.getElementById("products");
+
+        let allItems = [];
+        let currentFilter = "hammasi";
+
+        // Shu brauzerda qo'shilgan e'lonlar ro'yxati (faqat shular o'chirish tugmasini ko'radi)
+        function meningElonlarim() {
+            try {
+                return JSON.parse(localStorage.getItem('meningElonlarim') || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function normalize(str) {
+            return (str || "")
+                .toLowerCase()
+                .replace(/ʻ|ʼ|'|`/g, "")
+                .replace(/[^a-zA-Zа-яА-Я0-9]/g, "");
+        }
+
+        function renderProducts() {
+
+            products.innerHTML = "";
+
+            const filtered = currentFilter === "hammasi"
+                ? allItems
+                : allItems.filter(item => normalize(item.kategoriya).includes(normalize(currentFilter)));
+
+            if (filtered.length > 0) {
+
+                const mening = meningElonlarim();
+
+                filtered.forEach((item, idx) => {
+
+                    // == turi ishlatiladi (===  emas), shunda id raqam yoki satr bo'lishidan qat'i nazar mos keladi
+                    const ozimniki = mening.some(x => x == item.id);
+
+                    const telefonHtml = item.phone
+                        ? `<a class="phone-line" href="tel:${item.phone}" onclick="event.stopPropagation()">📞 ${item.phone}</a>`
+                        : "";
+
+                    const ochirishHtml = ozimniki
+                        ? `<button class="btn-delete" data-id="${item.id}">🗑 O'chirish</button>`
+                        : "";
+
+                    products.innerHTML += `
+<div class="card" style="--i:${idx}">
+
+    ${ozimniki ? '<span class="own-badge">Sizniki</span>' : ''}
+
+    <div class="img-wrap">
+        <img src="${item.img}" alt="">
+    </div>
+
+    <div class="info">
+
+        <div class="category">${item.kategoriya}</div>
+
+        <div class="name">${item.name}</div>
+
+        <div class="price">${item.price}</div>
+
+        <div class="about">${item.about}</div>
+
+        ${telefonHtml}
+
+        <div class="btn-row">
+            ${ochirishHtml}
+        </div>
+
+    </div>
+
+</div>
+`;
+
+                });
+
+                // O'chirish tugmalariga hodisa biriktirish
+                document.querySelectorAll(".btn-delete").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        const id = btn.getAttribute("data-id");
+                        oElonniOchirish(id);
+                    });
+                });
+
+            } else {
+
+                products.innerHTML = "<h1>E'lon hozircha yo'q</h1>";
+
+            }
+
+        }
+
+        function oElonniOchirish(id) {
+
+            if (!confirm("Ushbu e'lonni butunlay o'chirmoqchimisiz?")) return;
+
+            remove(ref(db, "Maxsulotlar/" + id)).then(() => {
+
+                // Lokal ro'yxatdan ham olib tashlaymiz
+                try {
+                    const mening = meningElonlarim().filter(x => String(x) !== String(id));
+                    localStorage.setItem('meningElonlarim', JSON.stringify(mening));
+                } catch (e) { /* e'tiborsiz qoldiriladi */ }
+
+                // loadProducts() shart emas - onValue listener
+                // o'zgarishni avtomatik tutib, sahifani yangilaydi
+
+            }).catch((error) => {
+                alert("O'chirishda xatolik: " + error);
+            });
+
+        }
+
+        function loadProducts() {
+
+            const maxsulotlarRef = ref(db, "Maxsulotlar");
+
+            // onValue - realtime tinglovchi. Ma'lumotlar bazada
+            // o'zgargan (qo'shilgan/o'chirilgan) zahoti bu funksiya
+            // qayta ishga tushadi va sahifa avtomatik yangilanadi.
+            onValue(maxsulotlarRef, (snapshot) => {
+
+                if (snapshot.exists()) {
+
+                    const data = snapshot.val();
+                    allItems = Object.values(data);
+
+                } else {
+
+                    allItems = [];
+
+                }
+
+                renderProducts();
+
+            }, (error) => {
+
+                console.log(error);
+
+            });
+
+        }
+
+        document.querySelectorAll(".kategoriya").forEach(chip => {
+
+            chip.addEventListener("click", () => {
+
+                document.querySelectorAll(".kategoriya").forEach(c => c.classList.remove("active"));
+                chip.classList.add("active");
+
+                currentFilter = chip.dataset.filter || "hammasi";
+                renderProducts();
+
+            });
+
+        });
+
+        loadProducts();
+    </script>
+
+    <!-- Sahifalar orasidagi silliq o'tish animatsiyasi -->
+    <div class="page-transition" id="pageTransition">
+        <div class="pt-mark"></div>
+    </div>
+    <script>
+        (function () {
+            const overlay = document.getElementById('pageTransition');
+
+            // Sahifa ochilganda: overlay silliq yo'qoladi
+            requestAnimationFrame(() => {
+                overlay.classList.add('active');
+                requestAnimationFrame(() => {
+                    setTimeout(() => overlay.classList.remove('active'), 30);
+                });
+            });
+
+            // Ichki havolalar bosilganda: overlay chiqib, keyin sahifaga o'tadi
+            document.addEventListener('click', (e) => {
+                const a = e.target.closest('a[href]');
+                if (!a) return;
+                const href = a.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('http') ||
+                    href.startsWith('tel:') || href.startsWith('mailto:') ||
+                    a.target === '_blank') return;
+
+                e.preventDefault();
+                overlay.classList.add('active');
+                setTimeout(() => { window.location.href = href; }, 360);
+            });
+        })();
+    </script>
+</body>
+
+</html>
